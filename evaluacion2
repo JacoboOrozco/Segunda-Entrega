@@ -1,0 +1,619 @@
+program Serpiente2;
+(*******************************************
+ * Por Victor Barbero Romero - Oct. 2.001   *
+ * vbarbero@movistar.com o @telefonica.net  *
+ *                                          *
+ *******************************************) {v2.0e}
+uses crt, Graph;
+const
+   DLY = 2;
+   {Cambiar este valor para hacer el juego más lento.}
+type
+   Puntuaci = record
+		 name : string[15];
+		 punt : integer;
+	      end;
+var
+   MaxPtosPar, PtosPar, PtosTot : integer
+   PosX, PosY, BolaX, BolaY, IncrmX, IncrmY : shortint;
+   Lab, c, NumArray, Rtraso : shortint;
+   datmem, mejora, basta, Sonido, definal : boolean;
+   ColaX, ColaY : array[1..40] of shortint;
+   Laberinto : array[1..1850] of boolean;
+   marca : array[1..6] of Puntuaci;
+   P : file of Puntuaci;
+   TipoMov : char;
+
+procedure IniciaVideo;
+var
+   Driver, Modo : smallint;
+begin
+   Driver := VGA;  { Modo := VGAHi; }
+   Modo := G640x480x256; { Cambiado debido a problemas con algunas resoluciones gráficas }
+   InitGraph(Driver,Modo,'.BGI');
+end;
+
+procedure AbreVentana(PX, PY, Anch, Alto : integer; Titulo : string);
+var
+   contaX, differ, alter, tlitb : integer;
+   tapavent : array[1..12] of integer;
+begin
+   alter := PX + Anch - (Anch div 5);
+   tlitb := alter + 20;
+   differ := PX - PY;
+
+   tapavent[1] := PX; tapavent[2] := PY;
+   tapavent[3] := PX; tapavent[4] := PY+Alto;
+   tapavent[5] := PX+Anch; tapavent[6] := PY+Alto;
+   tapavent[7] := PX+Anch; tapavent[8] := PY+(Anch div 5);
+   tapavent[9] := alter; tapavent[10] := PY;
+   tapavent[11] := PX; tapavent[12] := PY;
+   setcolor(0); setfillstyle(1,0);
+   fillpoly(6,tapavent);
+
+   setcolor(7);
+   line(PX-1, PY, alter, PY);
+   line(PX-1, PY-1, alter, PY-1);
+   for contaX := PX to PX+Anch do
+   begin
+      if contaX-differ < PY+Alto+1 then
+      begin putpixel(PX, contaX-differ, 7);
+	 putpixel(PX-1, contaX-differ, 7); end;
+      if contaX-differ < PY+Alto+1 then
+      begin putpixel(alter, contaX-differ, 7);
+	 putpixel(alter+1, contaX-differ, 7); end;
+      if alter < PX+Anch then alter := alter + 1;
+      putpixel(contaX, PY+Alto, 7);
+      putpixel(contaX-1, PY+Alto+1, 7);
+      if contaX < tlitb then putpixel(contaX, PY+20, 7);
+      Delay(4*DLY);
+   end;
+   putpixel(PX+Anch+1, PY+Alto+1, 7);
+   putpixel(PX+Anch, PY+Alto+1, 7);
+   setfillstyle(9,8);
+   floodfill(PX+(Anch div 2), PY+3, 7);
+   setfillstyle(10,8); floodfill(PX+(Anch div 2), PY+25, 7);
+   setcolor(15);
+   outtextxy(PX+12, PY+7, Titulo);
+end;
+
+procedure CreaFichero;
+begin
+   {$I-} rewrite(P); {$I+}
+   for c := 1 to 6 do begin
+      marca[c].name := '- - -';
+      marca[c].punt := 0;
+      seek(P,c); write(P,marca[c]);
+   end;
+end;
+
+procedure ManejaFichero;
+var
+   report : integer;
+begin
+   assign(P,'srp2pnt.fps');
+   {$I-} reset(P); {$I+}
+   report := IOResult;
+   if report <> 0 then begin CreaFichero; end else begin
+      for c := 1 to 6 do begin
+	 seek(P,c); read(P, marca[c]);
+      end; end; close(P);
+   datmem := true;
+end;
+
+procedure GrabaPunts;
+var
+   reprt : integer;
+begin
+   assign(P,'srp2pnt.fps');
+   {$I-} reset(P); {$I+}
+   reprt := IOResult;
+   if reprt <> 0 then begin CreaFichero; end else begin
+      for c := 1 to 6 do begin
+	 seek(P,c); write(P, marca[c]);
+      end; end;
+   close(P);
+end;
+
+procedure MuestraPunts;
+var
+   puntos : string[5];
+begin
+   AbreVentana(150,140,300,250,'Mejores puntuaciones');
+   if datmem = false then ManejaFichero;
+   setcolor(7);
+   outtextxy(175,185,'PUNTOS');
+   outtextxy(300,185,'NOMBRE');
+   line(160,198, 420,198); line(236,180, 236,380);
+   setfillstyle(1,0); setcolor(0);
+   for c := 1 to 6 do begin
+      bar(165,175+(30*c), 225,190+(30*c));
+      bar(250,175+(30*c), 410,190+(30*c));
+      str(marca[c].punt, puntos);
+      setcolor(11); outtextxy(175,180+(30*c), puntos);
+      setcolor(9); outtextxy(260,180+(30*c), marca[c].name);
+   end;
+   readkey;
+end;
+
+procedure OrdenaPunts;     {Utiliza el Algoritmo Bubble Short}
+var
+   d : shortint;
+   puntcambio : integer;
+   namecambio : string[15];
+begin
+   for c:= 1 to 6 do
+   begin
+      for d := c+1 to 6 do
+      begin
+	 if marca[d].punt > marca[c].punt then
+	 begin
+	    puntcambio := marca[c].punt;
+	    marca[c].punt := marca[d].punt;
+	    marca[d].punt := puntcambio;
+	    namecambio := marca[c].name;
+	    marca[c].name := marca[d].name;
+	    marca[d].name := namecambio;
+	 end;
+      end;
+   end;
+end;
+
+procedure CompruebaMejora;
+var
+   Nombre : string[15];
+begin
+   if datmem = false then begin ManejaFichero; end;
+   for c:= 1 to 6 do begin
+      if PtosTot > marca[c].punt then mejora := true;
+   end;
+   if mejora then begin
+      AbreVentana(140,150,250,110,'­Enhorabuena!');
+      setcolor(7);
+      outtextxy(159,193,'­Ha superado un record!');
+      if Sonido then begin
+	 Sound(293); Delay(193*DLY); NoSound; Delay(27*DLY);
+	 Sound(293); Delay(110*DLY); NoSound; Sound(293); Delay(110*DLY);
+	 Sound(440); Delay(330*DLY); Sound(293); Delay(110*DLY);
+	 Sound(440); Delay(440*DLY); NoSound; end;
+      outtextxy(160,208,'Introduzca su nombre:');
+      setfillstyle(1,0); setcolor(0);
+      bar(160,223, 320,237); textcolor(9);
+      gotoxy(22,15); readln(Nombre);
+      marca[6].punt := PtosTot; marca[6].name := Nombre;
+      OrdenaPunts; GrabaPunts;
+   end;
+   MuestraPunts;
+end;
+
+procedure CamSonido;
+var SonSim : string[1];
+begin
+   SonSim := #14;
+   if Sonido then begin
+      setcolor(0); outtextxy(585,5,SonSim); Sonido := false; end
+      else begin
+	 setcolor(2); outtextxy(585,5,SonSim); Sonido := true; end;
+end;
+
+procedure FinJuego;
+begin
+   cleardevice;
+   AbreVentana(175,130,275,150,'FIN');
+   setcolor(14); outtextxy(235,185,'S E R P I E N T E');
+   setcolor(7); outtextxy(192,240,'Victor Barbero - Octubre 2.001');
+   Delay(2000*DLY);
+   basta := true; definal := true;
+end;
+
+procedure CambiaNivel;
+var
+   Nivel : shortint;
+   c : char; nvl : string[1];
+   procedure PintaCuad(num,tipo : shortint);
+   begin
+      if tipo = 1 then setfillstyle(1,9);
+      if tipo = 0 then setfillstyle(4,9);
+      str(num,nvl); bar(210+(30*num),210, 230+(30*num),230);
+      if tipo = 1 then begin setcolor(11);
+	 outtextxy(215+(30*num), 220, nvl); end;
+   end;
+   procedure TeclaDerecha;
+   begin
+      if Nivel < 5 then
+      begin
+	 PintaCuad(Nivel+1,1);
+	 Nivel := Nivel + 1;
+      end; c := 'A';
+   end;
+   procedure TeclaIzquierda;
+   begin
+      if Nivel > 1 then
+      begin
+	 PintaCuad(Nivel,0);
+	 Nivel := Nivel - 1;
+      end; c := 'A';
+   end;
+begin
+   AbreVentana(195,150,240,110,'Nivel'); setcolor(7);
+   outtextxy(240,190,'Mayor dificultad'); outtextxy(375,190,#26);
+   outtextxy(260,240,#27); outtextxy(350,240,#26);
+   setcolor(1); rectangle(239,209, 261,231); rectangle(238,208, 262,232);
+   rectangle(269,209, 291,231); rectangle(268,208, 292,232);
+   rectangle(299,209, 321,231); rectangle(298,208, 322,232);
+   rectangle(329,209, 351,231); rectangle(328,208, 352,232);
+   rectangle(359,209, 381,231); rectangle(358,208, 382,232);
+   PintaCuad(1,1); PintaCuad(2,1); PintaCuad(3,1);
+   PintaCuad(4,0); PintaCuad(5,0); Nivel := 3;
+   repeat
+      if Keypressed then c := readkey;
+      case c of
+	#75 : TeclaIzquierda;
+	#77 : TeclaDerecha;
+      end;
+   until c=#13;
+   case Nivel of
+     1 : begin MaxPtosPar := 9+Lab; Rtraso := 100; end;
+     2 : begin MaxPtosPar := 14+Lab; Rtraso := 85; end;
+     3 : begin MaxPtosPar := 19+Lab; Rtraso := 75; end;
+     4 : begin MaxPtosPar := 24+Lab; Rtraso := 65; end;
+     5 : begin MaxPtosPar := 39+Lab; Rtraso := 53; end;
+   end;
+   setfillstyle(1,0); bar(568,4, 578,13);
+   setcolor(15); str(Nivel,nvl); outtextxy(569,5,nvl);
+end;
+
+procedure PintaLabs;
+var
+   x, y : shortint;
+begin
+   setfillstyle(11,6);
+   for x := 1 to 50 do
+   begin
+      for y := 1 to 37 do
+      begin
+	 if Laberinto[((y-1)*50)+x] = true then begin
+	    setcolor(12);
+	    rectangle(8+(x*12), 6+(y*12), 20+(x*12), 18+(y*12));
+	    setcolor(6);
+	    rectangle(9+(x*12), 7+(y*12), 19+(x*12), 17+(y*12));
+	    floodfill(14+(x*12), 12+(y*12), 6);
+	 end;
+      end;
+   end;
+end;
+
+procedure EligeLaberinto;
+var cn : char;
+   procedure BorraLabAnter;
+   var P : integer;
+   begin
+      for P := 1 to 1850 do
+      begin
+	 Laberinto[P] := false;
+      end;
+   end;
+   procedure Lab2;
+   var P : integer;
+   begin
+      for P := 601 to 626 do begin Laberinto[P] := true; end;
+      for P := 1224 to 1250 do begin Laberinto[P] := true; end;
+      for P := 438 to 450 do begin Laberinto[P] := true; end;
+      for P := 1451 to 1463 do begin Laberinto[P] := true; end;
+   end;
+   procedure Lab3;
+   var P : integer;
+   begin
+      P := 260;
+      while P < 1610 do begin
+	 P := P + 50;
+	 Laberinto[P] := true;
+	 Laberinto[P+31] := true;
+      end;
+      for P := 901 to 911 do begin Laberinto[P] := true; end;
+      for P := 990 to 1000 do begin Laberinto[P] := true; end;
+   end;
+   procedure Lab4;
+   var P : integer;
+   begin
+      P := 20;
+      while P < 756 do begin
+	 case P of
+	   265 :; 216 :; 167 :;
+	 else Laberinto[P] := true; end;
+	 P := P + 49;
+      end; Laberinto[19] := true; Laberinto[18] := true;
+      Laberinto[751] := true; Laberinto[754] := true;
+      Laberinto[752] := true; Laberinto[753] := true;
+      P := 1683;
+      while P > 1028 do begin
+	 Laberinto[P] := true;
+	 P := P - 49;
+      end; Laberinto[68] := true;
+      Laberinto[1046] := true; Laberinto[1050] := true;
+      Laberinto[1047] := true; Laberinto[1048] := true;
+      Laberinto[1049] := true;
+      P := 525;
+      while P < 1000 do begin
+	 Laberinto[P] := true;
+	 Laberinto[P+245] := true;
+	 P := P + 51;
+      end;
+      for P := 1501 to 1513 do begin Laberinto[P] := true; end;
+   end;
+   procedure TAbajo;
+   begin
+      if Lab < 4 then begin
+	 setcolor(11); setfillstyle(1,11);
+	 bar(225,135+(20*(Lab+1)), 230,140+(20*(Lab+1)));
+	 bar(383,135+(20*(Lab+1)), 388,140+(20*(Lab+1)));
+	 cn := 'A'; Lab := Lab + 1; end;
+   end;
+   procedure TArriba; begin
+      if Lab > 1 then begin
+	 setcolor(0); setfillstyle(1,0);
+	 bar(225,135+(20*Lab), 230,140+(20*Lab));
+	 bar(383,135+(20*Lab), 388,140+(20*Lab));
+	 cn := 'A'; Lab := Lab - 1; end;
+   end;
+begin
+   AbreVentana(215,120,190,114,'Laberinto');
+   setcolor(9);
+   line(222,149, 232,149); line(221,149, 221,166);
+   line(222,166, 232,166); line(391,149 ,381,149);
+   line(392,149, 392,166); line(381,166, 391,166);
+   line(222,169, 232,169); line(221,169, 221,186);
+   line(222,186, 232,186); line(391,169 ,381,169);
+   line(392,169, 392,186); line(381,186, 391,186);
+   line(222,189, 232,189); line(221,189, 221,206);
+   line(222,206, 232,206); line(391,189 ,381,189);
+   line(392,189, 392,206); line(381,206, 391,206);
+   line(222,209, 232,209); line(221,209, 221,226);
+   line(222,226, 232,226); line(391,209 ,381,209);
+   line(392,209, 392,226); line(381,226, 391,226);
+   setfillstyle(1,0); setcolor(7);  Lab := 1;
+   bar(223,150, 390,165); outtextxy(260,155,'Sin laberinto');
+   bar(223,170, 390,185); outtextxy(260,175,'Laberinto 1');
+   bar(223,190, 390,205); outtextxy(260,195,'Laberinto 2');
+   bar(223,210, 390,225); outtextxy(260,215,'Laberinto 3');
+   outtextxy(395,165,#24); outtextxy(395,204,#25);
+   setcolor(11); setfillstyle(1,11);
+   bar(225,155, 230,160); bar(383,155, 388,160);
+   repeat
+      if Keypressed then cn := readkey;
+      case cn of
+	#72 : TArriba;
+	#80 : TAbajo;
+      end;
+   until cn=#13;
+   BorraLabAnter;
+   case Lab of 2 : Lab2; 3 : Lab3; 4 : Lab4; end;
+end;
+
+procedure BorraMenu;
+begin
+   setfillstyle(1,0); floodfill(320, 240, 12);
+   setfillstyle(1,10);
+   bar(14+(BolaX*12)-2, 12+(BolaY*12)-2, 14+(BolaX*12)+2, 12+(BolaY*12)+2);
+   if definal = false then PintaLabs;
+   setcolor(14);
+end;
+
+procedure Presentacion;
+begin
+   cleardevice;
+   AbreVentana(130,100,380,190,'­Bienvenido!');
+   setcolor(14); outtextxy(180,170,'S E R P I E N T E');
+   setcolor(7); outtextxy(379,170,'v2.0');
+   outtextxy(180,220,'Presione ESC durante el juego');
+   outtextxy(235,240,'para entrar en el men£');
+   outtextxy(155,268,'Pulse cualquier tecla para continuar');
+   readkey;
+end;
+
+procedure Menu;
+var
+   c : char;
+begin
+   AbreVentana(180,125,250,180,'MENU');
+   setcolor(7);
+   outtextxy(200,180, '1.- Cambiar el nivel.');
+   case Sonido of
+     true : outtextxy(200,200, '2.- Desactivar sonido.');
+     false : outtextxy(200,200, '2.- Activar sonido.');
+   end;
+   outtextxy(200,220, '3.- Volver al juego.');
+   outtextxy(200,240, '4.- Salir del juego.');
+   outtextxy(200,260, '5.- Ver las puntuaciones.');
+   repeat
+      if Keypressed then c := readkey;
+   until ((c > #48) and (c < #54));
+   case c of
+     #49 : CambiaNivel;
+     #50 : CamSonido;
+     #52 : begin CompruebaMejora; FinJuego; end;
+     #53 : MuestraPunts;
+   end;
+   BorraMenu;
+end;
+
+procedure IniciaCampo;
+begin
+   cleardevice;
+   setcolor(12);
+   rectangle(20,17,620,462);
+   rectangle(19,18,621,463);
+   rectangle(410,2,600,15);
+   setfillstyle(6,4);
+   floodfill(320,10,12);
+   setcolor(7); outtextxy(415,5,'Puntos:');
+   outtextxy(520,5,'Nivel:');
+   for c := 1 to 30 do begin
+      ColaX[c] := 0; ColaY[c] := 0; end;
+   setcolor(14);
+   rectangle(106,68, 114,76); ColaX[3] := 8; ColaY[3] := 5;
+   rectangle(118,68, 126,76); ColaX[2] := 9; ColaY[2] := 5;
+   rectangle(130,68, 138,76); ColaX[1] := 10; ColaY[1] := 5;
+   IncrmX := 1; IncrmY := 0; PosX := 11; PosY := 5; NumArray := 3;
+   BolaX := 15; BolaY := 15; TipoMov := 'D'; basta := false;
+   PtosTot := 0; PtosPar := 0; mejora := false;
+end;
+
+procedure PintaCabeza;
+begin
+   setcolor(9);
+   rectangle(10+(PosX*12), 8+(PosY*12), 18+(PosX*12), 16+(PosY*12));
+   setcolor(14);
+   rectangle(10+(ColaX[1]*12), 8+(ColaY[1]*12), 18+(ColaX[1]*12), 16+(ColaY[1]*12));
+end;
+
+procedure BorraCola;
+begin
+   setcolor(0);
+   rectangle(10+(ColaX[NumArray-1]*12), 8+(ColaY[NumArray-1]*12),
+	     18+(ColaX[NumArray-1]*12), 16+(ColaY[NumArray-1]*12));
+   for c := NumArray downto 1 do
+   begin
+      ColaX[c] := ColaX[c-1];
+      ColaY[c] := ColaY[c-1];
+   end;
+   ColaX[1] := PosX; ColaY[1] := PosY;
+end;
+
+procedure DetectaColision;
+   procedure AvisoChoque;
+   var t : char;
+   begin
+      AbreVentana(200,140,250,100,'GAME OVER');
+      setcolor(7); outtextxy(215,190,'­­Se ha chocado!!');
+      if Sonido then begin
+	 Sound(367); Delay(200*DLY); Sound(352); Delay(200*DLY);
+	 Sound(330); Delay(200*DLY); Sound(313); Delay(455*DLY);
+	 NoSound; end;
+      outtextxy(215,210,'¨Desea jugar otra vez [S/N]?');
+      repeat if Keypressed then begin
+	 t := readkey; t := upcase(t); end;
+      until (t='S') or (t='N');
+      CompruebaMejora;
+      if t = 'N' then begin FinJuego; end;
+      if t = 'S' then basta := true;
+   end;
+var
+   Num : shortint;
+begin
+   if ((PosX<1) or (PosX>50) or (PosY<1) or (PosY>37)) then
+   begin
+      setcolor(12);
+      circle(14+(ColaX[1]*12), 12+(ColaY[1]*12), 5);
+      AvisoChoque;
+   end;
+   Num := NumArray;
+   repeat
+      if ((ColaX[Num] = PosX) and (ColaY[Num] = PosY)) then
+      begin
+	 setcolor(12);
+	 circle(14+(PosX*12), 12+(PosY*12), 5);
+	 AvisoChoque;
+	 break;
+      end;
+      Num := Num - 1;
+   until Num<3;
+   if Laberinto[((PosY-1)*50)+PosX] = true then begin
+      setcolor(12); circle(14+(ColaX[1]*12), 12+(ColaY[1]*12),5);
+      AvisoChoque; end;
+end;
+
+procedure PintaComida;
+var
+   NA : string[6];
+begin
+   setfillstyle(1,0);
+   bar(478,4, 510,12);
+   bar(14+(BolaX*12)-2, 12+(BolaY*12)-2, 14+(BolaX*12)+2, 12+(BolaY*12)+2);
+   PtosTot := PtosPar + PtosTot; PtosPar := MaxPtosPar;
+   str(PtosTot, NA);
+   setcolor(15); outtextxy(479,5,NA);
+   setfillstyle(1,10);
+   repeat
+      BolaX := random(49)+1; BolaY := random(36)+1;
+   until Laberinto[((BolaY-1)*50)+BolaX] = false;
+   bar(14+(BolaX*12)-2, 12+(BolaY*12)-2, 14+(BolaX*12)+2, 12+(BolaY*12)+2);
+   if NumArray < 30 then NumArray := NumArray + 1;
+   if NumArray > 30 then Rtraso := Rtraso - 1;
+   if Sonido then begin
+      Sound(1056); Delay(15*DLY); Sound(938); Delay(15*DLY); Sound(734);
+      Delay(15*DLY); Sound(528); Delay(15*DLY); NoSound; end;
+end;
+
+procedure LeeTecla;
+   procedure TeclaArriba;
+   begin
+      if TipoMov <> 'B' then begin
+	 IncrmX := 0; IncrmY := -1; TipoMov := 'A' end
+	 else begin if Sonido then begin
+	    Sound(83); Delay(10*DLY); NoSound; end; end;
+      if PtosPar > 0 then PtosPar := PtosPar - 1;
+   end;
+   procedure TeclaIzquierda;
+   begin
+      if TipoMov <> 'D' then begin
+	 IncrmX := -1; IncrmY := 0; TipoMov := 'I' end
+	 else begin if Sonido then begin
+	    Sound(83); Delay(10*DLY); NoSound; end; end;
+      if PtosPar > 0 then PtosPar := PtosPar - 1;
+   end;
+   procedure TeclaDerecha;
+   begin
+      if TipoMov <> 'I' then begin
+	 IncrmX := 1; IncrmY := 0; TipoMov := 'D' end
+	 else begin if Sonido then begin
+	    Sound(83); Delay(10*DLY); NoSound; end; end;
+      if PtosPar > 0 then PtosPar := PtosPar - 1;
+   end;
+   procedure TeclaAbajo;
+   begin
+      if TipoMov <> 'A' then begin
+	 IncrmX := 0; IncrmY := 1; TipoMov := 'B' end
+	 else begin if Sonido then begin
+	    Sound(83); Delay(10*DLY); NoSound; end; end;
+      if PtosPar > 0 then PtosPar := PtosPar - 1;
+   end;
+var
+   t : char;
+begin
+   if Keypressed then
+   begin
+      t := readkey;
+      case t of
+	#72 : TeclaArriba;
+	#75 : TeclaIzquierda;
+	#77 : TeclaDerecha;
+	#80 : TeclaAbajo;
+	#27 : Menu;
+      end;
+   end;
+end;
+
+procedure Juego;
+begin
+   PintaCabeza;
+   if (BolaX = PosX) and (BolaY = PosY) then
+   begin
+      PintaComida;
+   end;
+   LeeTecla;
+   BorraCola;
+   PosX := PosX + IncrmX; PosY := PosY + IncrmY;
+   DetectaColision;
+   LeeTecla;
+   Delay(Rtraso*DLY);
+end;
+begin
+   clrscr; randomize;
+   IniciaVideo; Presentacion;
+   repeat
+      IniciaCampo; EligeLaberinto; CambiaNivel; BorraMenu; PintaComida;
+      repeat Juego; until basta;
+   until definal;
+   closegraph;
+end.

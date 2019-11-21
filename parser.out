@@ -1,0 +1,3436 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ABSOLUTE
+    AND
+    ARRAY
+    AS
+    ASM
+    BREAK
+    CLASS
+    COMENTARIOS
+    CONSTRUCTOR
+    CONTINUE
+    DESTRUCTOR
+    DIFERENTE
+    DISPOSE
+    DIV
+    DOT
+    DOWNTO
+    ERROR_LEXICO
+    ERROR_SINTAXIS_ABSOLUTE
+    ERROR_SINTAXIS_AND
+    EXCEPT
+    EXIT
+    EXPORTS
+    FILE
+    FINALIZATION
+    FINALLY
+    FLOAT
+    FUNCTION
+    GOTO
+    HASHTAG
+    IGUAL
+    IMPLEMENTATION
+    IN
+    INHERITED
+    INITIALIZATION
+    INLINE
+    INTERFACE
+    IS
+    LABEL
+    LBLOCK
+    LBRAK
+    LIBRARY
+    MOD
+    NEW
+    NIL
+    NOT
+    OBJECT
+    ON
+    OPERATOR
+    OR
+    PACKED
+    PROPERTY
+    RAISE
+    RBLOCK
+    RBRAK
+    REINTRODUCE
+    REPEAT
+    SELF
+    SET
+    SHL
+    SHR
+    SIMBOLOS
+    THREADVAR
+    TRY
+    UNIT
+    UNTIL
+    WITH
+    XOR
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> declaration_list
+Rule 2     declaration_list -> declaration_list declaration
+Rule 3     declaration_list -> declaration
+Rule 4     declaration -> var_declaration
+Rule 5     declaration -> proce_declaration
+Rule 6     declaration -> cons_declaration
+Rule 7     declaration -> nom_declaration
+Rule 8     declaration -> tipo_declaration
+Rule 9     declaration -> impo_declaration
+Rule 10    nom_declaration -> PROGRAM ID SEMICOLON
+Rule 11    nom_declaration -> PROGRAM ID NUMBER SEMICOLON
+Rule 12    nom_declaration -> PROGRAM NUMBER SEMICOLON
+Rule 13    nom_declaration -> PROGRAM NUMBER ID SEMICOLON
+Rule 14    impo_declaration -> USES ID SEMICOLON
+Rule 15    var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON
+Rule 16    var_declaration2 -> ID COMMA var_declaration2
+Rule 17    var_declaration2 -> ID var_declaration2
+Rule 18    var_declaration2 -> ID NUMBER var_declaration2
+Rule 19    var_declaration2 -> ID
+Rule 20    var_declaration2 -> ID NUMBER
+Rule 21    cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON
+Rule 22    cons_declaration2 -> ID COMMA cons_declaration2
+Rule 23    cons_declaration2 -> ID cons_declaration2
+Rule 24    cons_declaration2 -> ID NUMBER cons_declaration2
+Rule 25    cons_declaration2 -> ID
+Rule 26    cons_declaration2 -> ID NUMBER
+Rule 27    tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON
+Rule 28    tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON
+Rule 29    tipo_declaration2 -> ID
+Rule 30    tipo_declaration2 -> ID NUMBER
+Rule 31    type_specifier -> INTEGER
+Rule 32    type_specifier -> REAL
+Rule 33    type_specifier -> STRING
+Rule 34    type_specifier -> BOOLEAN
+Rule 35    type_specifier -> CHAR
+Rule 36    proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt
+Rule 37    proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt
+Rule 38    params -> param_list
+Rule 39    param_list -> param_list COLON type_specifier SEMICOLON param
+Rule 40    param_list -> param_list COMMA param
+Rule 41    param_list -> param
+Rule 42    param_list -> empty
+Rule 43    param -> ID COLON type_specifier
+Rule 44    compount_stmt -> var_declaration BEGIN local_declaration statement_list END
+Rule 45    compount_stmt -> BEGIN local_declaration statement_list END
+Rule 46    local_declaration -> empty
+Rule 47    local_declaration -> ID COLON EQUAL ID
+Rule 48    local_declaration -> ID COLON EQUAL NUMBER
+Rule 49    local_declaration -> NUMBER COLON EQUAL NUMBER
+Rule 50    local_declaration -> ID NUMBER COLON EQUAL ID
+Rule 51    local_declaration -> NUMBER COLON EQUAL ID
+Rule 52    statement_list -> statement_list statement
+Rule 53    statement_list -> empty
+Rule 54    statement -> expression_stmt
+Rule 55    statement -> compount_stmt
+Rule 56    statement -> selection_stmt
+Rule 57    statement -> iteration_stmt
+Rule 58    statement -> return_stmt
+Rule 59    expression_stmt -> expression SEMICOLON
+Rule 60    expression_stmt -> SEMICOLON
+Rule 61    selection_stmt -> IF expression THEN statement SEMICOLON
+Rule 62    selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON
+Rule 63    selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+Rule 64    selection_stmt -> CASE expression OF statement END SEMICOLON
+Rule 65    iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON
+Rule 66    iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON
+Rule 67    return_stmt -> RETURN SEMICOLON
+Rule 68    return_stmt -> RETURN expression SEMICOLON
+Rule 69    expression -> var COLON EQUAL expression
+Rule 70    expression -> simple_expression
+Rule 71    expression -> var EQUAL AMPERSANT ID
+Rule 72    var -> ID
+Rule 73    simple_expression -> additive_expression relop additive_expression
+Rule 74    simple_expression -> additive_expression
+Rule 75    relop -> MENOR
+Rule 76    relop -> MENORIGUAL
+Rule 77    relop -> MAYOR
+Rule 78    relop -> MAYORIGUAL
+Rule 79    relop -> IGUALNOT
+Rule 80    additive_expression -> additive_expression addop term
+Rule 81    additive_expression -> term
+Rule 82    addop -> SUM
+Rule 83    addop -> RES
+Rule 84    term -> term mulop factor
+Rule 85    term -> factor
+Rule 86    mulop -> MUL
+Rule 87    mulop -> DIVI
+Rule 88    factor -> APAREN expression CPAREN
+Rule 89    factor -> var
+Rule 90    factor -> call
+Rule 91    factor -> NUMBER
+Rule 92    call -> ID SEMICOLON
+Rule 93    call -> ID APAREN args CPAREN SEMICOLON
+Rule 94    args -> args_list
+Rule 95    args -> empty
+Rule 96    args_list -> args_list COMMA expression
+Rule 97    args_list -> expression
+Rule 98    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ABSOLUTE             : 
+AMPERSANT            : 71
+AND                  : 
+APAREN               : 36 88 93
+ARRAY                : 
+AS                   : 
+ASM                  : 
+BEGIN                : 44 45 62 63 63 65 66
+BOOLEAN              : 34
+BREAK                : 
+CASE                 : 64
+CHAR                 : 35
+CLASS                : 
+COLON                : 15 21 27 39 43 47 48 49 50 51 69
+COMENTARIOS          : 
+COMMA                : 16 22 40 96
+CONST                : 21
+CONSTRUCTOR          : 
+CONTINUE             : 
+CPAREN               : 36 88 93
+DESTRUCTOR           : 
+DIFERENTE            : 
+DISPOSE              : 
+DIV                  : 
+DIVI                 : 87
+DO                   : 65 66
+DOT                  : 
+DOWNTO               : 
+ELSE                 : 63
+END                  : 44 45 63 64 65 66
+EQUAL                : 28 47 48 49 50 51 69 71
+ERROR_LEXICO         : 
+ERROR_SINTAXIS_ABSOLUTE : 
+ERROR_SINTAXIS_AND   : 
+EXCEPT               : 
+EXIT                 : 
+EXPORTS              : 
+FILE                 : 
+FINALIZATION         : 
+FINALLY              : 
+FLOAT                : 
+FOR                  : 66
+FUNCTION             : 
+GOTO                 : 
+HASHTAG              : 
+ID                   : 10 11 13 14 16 17 18 19 20 22 23 24 25 26 29 30 36 37 43 47 47 48 50 50 51 71 72 92 93
+IF                   : 61 62 63
+IGUAL                : 
+IGUALNOT             : 79
+IMPLEMENTATION       : 
+IN                   : 
+INHERITED            : 
+INITIALIZATION       : 
+INLINE               : 
+INTEGER              : 31
+INTERFACE            : 
+IS                   : 
+LABEL                : 
+LBLOCK               : 
+LBRAK                : 
+LIBRARY              : 
+MAYOR                : 77
+MAYORIGUAL           : 78
+MENOR                : 75
+MENORIGUAL           : 76
+MOD                  : 
+MUL                  : 86
+NEW                  : 
+NIL                  : 
+NOT                  : 
+NUMBER               : 11 12 13 18 20 24 26 30 48 49 49 50 51 91
+OBJECT               : 
+OF                   : 64
+ON                   : 
+OPERATOR             : 
+OR                   : 
+PACKED               : 
+PROCEDURE            : 36 37
+PROGRAM              : 10 11 12 13
+PROPERTY             : 
+RAISE                : 
+RBLOCK               : 
+RBRAK                : 
+REAL                 : 32
+RECORD               : 28
+REINTRODUCE          : 
+REPEAT               : 
+RES                  : 83
+RETURN               : 67 68
+SELF                 : 
+SEMICOLON            : 10 11 12 13 14 15 21 27 28 36 37 39 59 60 61 62 63 64 65 66 67 68 92 93
+SET                  : 
+SHL                  : 
+SHR                  : 
+SIMBOLOS             : 
+STRING               : 33
+SUM                  : 82
+THEN                 : 61 62 63
+THREADVAR            : 
+TO                   : 66
+TRY                  : 
+TYPE                 : 27 28
+UNIT                 : 
+UNTIL                : 
+USES                 : 14
+VAR                  : 15
+WHILE                : 65
+WITH                 : 
+XOR                  : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+additive_expression  : 73 73 74 80
+addop                : 80
+args                 : 93
+args_list            : 94 96
+call                 : 90
+compount_stmt        : 36 37 55
+cons_declaration     : 6
+cons_declaration2    : 21 22 23 24
+declaration          : 2 3
+declaration_list     : 1 2
+empty                : 42 46 53 95
+expression           : 59 61 62 63 64 65 66 66 68 69 88 96 97
+expression_stmt      : 54
+factor               : 84 85
+impo_declaration     : 9
+iteration_stmt       : 57
+local_declaration    : 44 45
+mulop                : 84
+nom_declaration      : 7
+param                : 39 40 41
+param_list           : 38 39 40
+params               : 36
+proce_declaration    : 5 62 63
+programa             : 0
+relop                : 73
+return_stmt          : 58
+selection_stmt       : 56
+simple_expression    : 70
+statement            : 52 61 64 65 66
+statement_list       : 44 45 52
+term                 : 80 81 84
+tipo_declaration     : 8
+tipo_declaration2    : 27 28
+type_specifier       : 15 21 27 39 43
+var                  : 69 71 89
+var_declaration      : 4 44
+var_declaration2     : 15 16 17 18
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . declaration_list
+    (2) declaration_list -> . declaration_list declaration
+    (3) declaration_list -> . declaration
+    (4) declaration -> . var_declaration
+    (5) declaration -> . proce_declaration
+    (6) declaration -> . cons_declaration
+    (7) declaration -> . nom_declaration
+    (8) declaration -> . tipo_declaration
+    (9) declaration -> . impo_declaration
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (36) proce_declaration -> . PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt
+    (37) proce_declaration -> . PROCEDURE ID SEMICOLON compount_stmt
+    (21) cons_declaration -> . CONST cons_declaration2 COLON type_specifier SEMICOLON
+    (10) nom_declaration -> . PROGRAM ID SEMICOLON
+    (11) nom_declaration -> . PROGRAM ID NUMBER SEMICOLON
+    (12) nom_declaration -> . PROGRAM NUMBER SEMICOLON
+    (13) nom_declaration -> . PROGRAM NUMBER ID SEMICOLON
+    (27) tipo_declaration -> . TYPE tipo_declaration2 COLON type_specifier SEMICOLON
+    (28) tipo_declaration -> . TYPE tipo_declaration2 EQUAL RECORD SEMICOLON
+    (14) impo_declaration -> . USES ID SEMICOLON
+
+    VAR             shift and go to state 10
+    PROCEDURE       shift and go to state 11
+    CONST           shift and go to state 12
+    PROGRAM         shift and go to state 13
+    TYPE            shift and go to state 14
+    USES            shift and go to state 15
+
+    programa                       shift and go to state 1
+    declaration_list               shift and go to state 2
+    declaration                    shift and go to state 3
+    var_declaration                shift and go to state 4
+    proce_declaration              shift and go to state 5
+    cons_declaration               shift and go to state 6
+    nom_declaration                shift and go to state 7
+    tipo_declaration               shift and go to state 8
+    impo_declaration               shift and go to state 9
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> declaration_list .
+    (2) declaration_list -> declaration_list . declaration
+    (4) declaration -> . var_declaration
+    (5) declaration -> . proce_declaration
+    (6) declaration -> . cons_declaration
+    (7) declaration -> . nom_declaration
+    (8) declaration -> . tipo_declaration
+    (9) declaration -> . impo_declaration
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (36) proce_declaration -> . PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt
+    (37) proce_declaration -> . PROCEDURE ID SEMICOLON compount_stmt
+    (21) cons_declaration -> . CONST cons_declaration2 COLON type_specifier SEMICOLON
+    (10) nom_declaration -> . PROGRAM ID SEMICOLON
+    (11) nom_declaration -> . PROGRAM ID NUMBER SEMICOLON
+    (12) nom_declaration -> . PROGRAM NUMBER SEMICOLON
+    (13) nom_declaration -> . PROGRAM NUMBER ID SEMICOLON
+    (27) tipo_declaration -> . TYPE tipo_declaration2 COLON type_specifier SEMICOLON
+    (28) tipo_declaration -> . TYPE tipo_declaration2 EQUAL RECORD SEMICOLON
+    (14) impo_declaration -> . USES ID SEMICOLON
+
+    $end            reduce using rule 1 (programa -> declaration_list .)
+    VAR             shift and go to state 10
+    PROCEDURE       shift and go to state 11
+    CONST           shift and go to state 12
+    PROGRAM         shift and go to state 13
+    TYPE            shift and go to state 14
+    USES            shift and go to state 15
+
+    declaration                    shift and go to state 16
+    var_declaration                shift and go to state 4
+    proce_declaration              shift and go to state 5
+    cons_declaration               shift and go to state 6
+    nom_declaration                shift and go to state 7
+    tipo_declaration               shift and go to state 8
+    impo_declaration               shift and go to state 9
+
+state 3
+
+    (3) declaration_list -> declaration .
+
+    VAR             reduce using rule 3 (declaration_list -> declaration .)
+    PROCEDURE       reduce using rule 3 (declaration_list -> declaration .)
+    CONST           reduce using rule 3 (declaration_list -> declaration .)
+    PROGRAM         reduce using rule 3 (declaration_list -> declaration .)
+    TYPE            reduce using rule 3 (declaration_list -> declaration .)
+    USES            reduce using rule 3 (declaration_list -> declaration .)
+    $end            reduce using rule 3 (declaration_list -> declaration .)
+
+
+state 4
+
+    (4) declaration -> var_declaration .
+
+    VAR             reduce using rule 4 (declaration -> var_declaration .)
+    PROCEDURE       reduce using rule 4 (declaration -> var_declaration .)
+    CONST           reduce using rule 4 (declaration -> var_declaration .)
+    PROGRAM         reduce using rule 4 (declaration -> var_declaration .)
+    TYPE            reduce using rule 4 (declaration -> var_declaration .)
+    USES            reduce using rule 4 (declaration -> var_declaration .)
+    $end            reduce using rule 4 (declaration -> var_declaration .)
+
+
+state 5
+
+    (5) declaration -> proce_declaration .
+
+    VAR             reduce using rule 5 (declaration -> proce_declaration .)
+    PROCEDURE       reduce using rule 5 (declaration -> proce_declaration .)
+    CONST           reduce using rule 5 (declaration -> proce_declaration .)
+    PROGRAM         reduce using rule 5 (declaration -> proce_declaration .)
+    TYPE            reduce using rule 5 (declaration -> proce_declaration .)
+    USES            reduce using rule 5 (declaration -> proce_declaration .)
+    $end            reduce using rule 5 (declaration -> proce_declaration .)
+
+
+state 6
+
+    (6) declaration -> cons_declaration .
+
+    VAR             reduce using rule 6 (declaration -> cons_declaration .)
+    PROCEDURE       reduce using rule 6 (declaration -> cons_declaration .)
+    CONST           reduce using rule 6 (declaration -> cons_declaration .)
+    PROGRAM         reduce using rule 6 (declaration -> cons_declaration .)
+    TYPE            reduce using rule 6 (declaration -> cons_declaration .)
+    USES            reduce using rule 6 (declaration -> cons_declaration .)
+    $end            reduce using rule 6 (declaration -> cons_declaration .)
+
+
+state 7
+
+    (7) declaration -> nom_declaration .
+
+    VAR             reduce using rule 7 (declaration -> nom_declaration .)
+    PROCEDURE       reduce using rule 7 (declaration -> nom_declaration .)
+    CONST           reduce using rule 7 (declaration -> nom_declaration .)
+    PROGRAM         reduce using rule 7 (declaration -> nom_declaration .)
+    TYPE            reduce using rule 7 (declaration -> nom_declaration .)
+    USES            reduce using rule 7 (declaration -> nom_declaration .)
+    $end            reduce using rule 7 (declaration -> nom_declaration .)
+
+
+state 8
+
+    (8) declaration -> tipo_declaration .
+
+    VAR             reduce using rule 8 (declaration -> tipo_declaration .)
+    PROCEDURE       reduce using rule 8 (declaration -> tipo_declaration .)
+    CONST           reduce using rule 8 (declaration -> tipo_declaration .)
+    PROGRAM         reduce using rule 8 (declaration -> tipo_declaration .)
+    TYPE            reduce using rule 8 (declaration -> tipo_declaration .)
+    USES            reduce using rule 8 (declaration -> tipo_declaration .)
+    $end            reduce using rule 8 (declaration -> tipo_declaration .)
+
+
+state 9
+
+    (9) declaration -> impo_declaration .
+
+    VAR             reduce using rule 9 (declaration -> impo_declaration .)
+    PROCEDURE       reduce using rule 9 (declaration -> impo_declaration .)
+    CONST           reduce using rule 9 (declaration -> impo_declaration .)
+    PROGRAM         reduce using rule 9 (declaration -> impo_declaration .)
+    TYPE            reduce using rule 9 (declaration -> impo_declaration .)
+    USES            reduce using rule 9 (declaration -> impo_declaration .)
+    $end            reduce using rule 9 (declaration -> impo_declaration .)
+
+
+state 10
+
+    (15) var_declaration -> VAR . var_declaration2 COLON type_specifier SEMICOLON
+    (16) var_declaration2 -> . ID COMMA var_declaration2
+    (17) var_declaration2 -> . ID var_declaration2
+    (18) var_declaration2 -> . ID NUMBER var_declaration2
+    (19) var_declaration2 -> . ID
+    (20) var_declaration2 -> . ID NUMBER
+
+    ID              shift and go to state 18
+
+    var_declaration2               shift and go to state 17
+
+state 11
+
+    (36) proce_declaration -> PROCEDURE . ID APAREN params CPAREN SEMICOLON compount_stmt
+    (37) proce_declaration -> PROCEDURE . ID SEMICOLON compount_stmt
+
+    ID              shift and go to state 19
+
+
+state 12
+
+    (21) cons_declaration -> CONST . cons_declaration2 COLON type_specifier SEMICOLON
+    (22) cons_declaration2 -> . ID COMMA cons_declaration2
+    (23) cons_declaration2 -> . ID cons_declaration2
+    (24) cons_declaration2 -> . ID NUMBER cons_declaration2
+    (25) cons_declaration2 -> . ID
+    (26) cons_declaration2 -> . ID NUMBER
+
+    ID              shift and go to state 21
+
+    cons_declaration2              shift and go to state 20
+
+state 13
+
+    (10) nom_declaration -> PROGRAM . ID SEMICOLON
+    (11) nom_declaration -> PROGRAM . ID NUMBER SEMICOLON
+    (12) nom_declaration -> PROGRAM . NUMBER SEMICOLON
+    (13) nom_declaration -> PROGRAM . NUMBER ID SEMICOLON
+
+    ID              shift and go to state 22
+    NUMBER          shift and go to state 23
+
+
+state 14
+
+    (27) tipo_declaration -> TYPE . tipo_declaration2 COLON type_specifier SEMICOLON
+    (28) tipo_declaration -> TYPE . tipo_declaration2 EQUAL RECORD SEMICOLON
+    (29) tipo_declaration2 -> . ID
+    (30) tipo_declaration2 -> . ID NUMBER
+
+    ID              shift and go to state 25
+
+    tipo_declaration2              shift and go to state 24
+
+state 15
+
+    (14) impo_declaration -> USES . ID SEMICOLON
+
+    ID              shift and go to state 26
+
+
+state 16
+
+    (2) declaration_list -> declaration_list declaration .
+
+    VAR             reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    PROCEDURE       reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    CONST           reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    PROGRAM         reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    TYPE            reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    USES            reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    $end            reduce using rule 2 (declaration_list -> declaration_list declaration .)
+
+
+state 17
+
+    (15) var_declaration -> VAR var_declaration2 . COLON type_specifier SEMICOLON
+
+    COLON           shift and go to state 27
+
+
+state 18
+
+    (16) var_declaration2 -> ID . COMMA var_declaration2
+    (17) var_declaration2 -> ID . var_declaration2
+    (18) var_declaration2 -> ID . NUMBER var_declaration2
+    (19) var_declaration2 -> ID .
+    (20) var_declaration2 -> ID . NUMBER
+    (16) var_declaration2 -> . ID COMMA var_declaration2
+    (17) var_declaration2 -> . ID var_declaration2
+    (18) var_declaration2 -> . ID NUMBER var_declaration2
+    (19) var_declaration2 -> . ID
+    (20) var_declaration2 -> . ID NUMBER
+
+    COMMA           shift and go to state 28
+    NUMBER          shift and go to state 30
+    COLON           reduce using rule 19 (var_declaration2 -> ID .)
+    ID              shift and go to state 18
+
+    var_declaration2               shift and go to state 29
+
+state 19
+
+    (36) proce_declaration -> PROCEDURE ID . APAREN params CPAREN SEMICOLON compount_stmt
+    (37) proce_declaration -> PROCEDURE ID . SEMICOLON compount_stmt
+
+    APAREN          shift and go to state 31
+    SEMICOLON       shift and go to state 32
+
+
+state 20
+
+    (21) cons_declaration -> CONST cons_declaration2 . COLON type_specifier SEMICOLON
+
+    COLON           shift and go to state 33
+
+
+state 21
+
+    (22) cons_declaration2 -> ID . COMMA cons_declaration2
+    (23) cons_declaration2 -> ID . cons_declaration2
+    (24) cons_declaration2 -> ID . NUMBER cons_declaration2
+    (25) cons_declaration2 -> ID .
+    (26) cons_declaration2 -> ID . NUMBER
+    (22) cons_declaration2 -> . ID COMMA cons_declaration2
+    (23) cons_declaration2 -> . ID cons_declaration2
+    (24) cons_declaration2 -> . ID NUMBER cons_declaration2
+    (25) cons_declaration2 -> . ID
+    (26) cons_declaration2 -> . ID NUMBER
+
+    COMMA           shift and go to state 34
+    NUMBER          shift and go to state 36
+    COLON           reduce using rule 25 (cons_declaration2 -> ID .)
+    ID              shift and go to state 21
+
+    cons_declaration2              shift and go to state 35
+
+state 22
+
+    (10) nom_declaration -> PROGRAM ID . SEMICOLON
+    (11) nom_declaration -> PROGRAM ID . NUMBER SEMICOLON
+
+    SEMICOLON       shift and go to state 37
+    NUMBER          shift and go to state 38
+
+
+state 23
+
+    (12) nom_declaration -> PROGRAM NUMBER . SEMICOLON
+    (13) nom_declaration -> PROGRAM NUMBER . ID SEMICOLON
+
+    SEMICOLON       shift and go to state 39
+    ID              shift and go to state 40
+
+
+state 24
+
+    (27) tipo_declaration -> TYPE tipo_declaration2 . COLON type_specifier SEMICOLON
+    (28) tipo_declaration -> TYPE tipo_declaration2 . EQUAL RECORD SEMICOLON
+
+    COLON           shift and go to state 41
+    EQUAL           shift and go to state 42
+
+
+state 25
+
+    (29) tipo_declaration2 -> ID .
+    (30) tipo_declaration2 -> ID . NUMBER
+
+    COLON           reduce using rule 29 (tipo_declaration2 -> ID .)
+    EQUAL           reduce using rule 29 (tipo_declaration2 -> ID .)
+    NUMBER          shift and go to state 43
+
+
+state 26
+
+    (14) impo_declaration -> USES ID . SEMICOLON
+
+    SEMICOLON       shift and go to state 44
+
+
+state 27
+
+    (15) var_declaration -> VAR var_declaration2 COLON . type_specifier SEMICOLON
+    (31) type_specifier -> . INTEGER
+    (32) type_specifier -> . REAL
+    (33) type_specifier -> . STRING
+    (34) type_specifier -> . BOOLEAN
+    (35) type_specifier -> . CHAR
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    STRING          shift and go to state 48
+    BOOLEAN         shift and go to state 49
+    CHAR            shift and go to state 50
+
+    type_specifier                 shift and go to state 45
+
+state 28
+
+    (16) var_declaration2 -> ID COMMA . var_declaration2
+    (16) var_declaration2 -> . ID COMMA var_declaration2
+    (17) var_declaration2 -> . ID var_declaration2
+    (18) var_declaration2 -> . ID NUMBER var_declaration2
+    (19) var_declaration2 -> . ID
+    (20) var_declaration2 -> . ID NUMBER
+
+    ID              shift and go to state 18
+
+    var_declaration2               shift and go to state 51
+
+state 29
+
+    (17) var_declaration2 -> ID var_declaration2 .
+
+    COLON           reduce using rule 17 (var_declaration2 -> ID var_declaration2 .)
+
+
+state 30
+
+    (18) var_declaration2 -> ID NUMBER . var_declaration2
+    (20) var_declaration2 -> ID NUMBER .
+    (16) var_declaration2 -> . ID COMMA var_declaration2
+    (17) var_declaration2 -> . ID var_declaration2
+    (18) var_declaration2 -> . ID NUMBER var_declaration2
+    (19) var_declaration2 -> . ID
+    (20) var_declaration2 -> . ID NUMBER
+
+    COLON           reduce using rule 20 (var_declaration2 -> ID NUMBER .)
+    ID              shift and go to state 18
+
+    var_declaration2               shift and go to state 52
+
+state 31
+
+    (36) proce_declaration -> PROCEDURE ID APAREN . params CPAREN SEMICOLON compount_stmt
+    (38) params -> . param_list
+    (39) param_list -> . param_list COLON type_specifier SEMICOLON param
+    (40) param_list -> . param_list COMMA param
+    (41) param_list -> . param
+    (42) param_list -> . empty
+    (43) param -> . ID COLON type_specifier
+    (98) empty -> .
+
+    ID              shift and go to state 53
+    COLON           reduce using rule 98 (empty -> .)
+    COMMA           reduce using rule 98 (empty -> .)
+    CPAREN          reduce using rule 98 (empty -> .)
+
+    params                         shift and go to state 54
+    param_list                     shift and go to state 55
+    param                          shift and go to state 56
+    empty                          shift and go to state 57
+
+state 32
+
+    (37) proce_declaration -> PROCEDURE ID SEMICOLON . compount_stmt
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+
+    BEGIN           shift and go to state 60
+    VAR             shift and go to state 10
+
+    compount_stmt                  shift and go to state 58
+    var_declaration                shift and go to state 59
+
+state 33
+
+    (21) cons_declaration -> CONST cons_declaration2 COLON . type_specifier SEMICOLON
+    (31) type_specifier -> . INTEGER
+    (32) type_specifier -> . REAL
+    (33) type_specifier -> . STRING
+    (34) type_specifier -> . BOOLEAN
+    (35) type_specifier -> . CHAR
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    STRING          shift and go to state 48
+    BOOLEAN         shift and go to state 49
+    CHAR            shift and go to state 50
+
+    type_specifier                 shift and go to state 61
+
+state 34
+
+    (22) cons_declaration2 -> ID COMMA . cons_declaration2
+    (22) cons_declaration2 -> . ID COMMA cons_declaration2
+    (23) cons_declaration2 -> . ID cons_declaration2
+    (24) cons_declaration2 -> . ID NUMBER cons_declaration2
+    (25) cons_declaration2 -> . ID
+    (26) cons_declaration2 -> . ID NUMBER
+
+    ID              shift and go to state 21
+
+    cons_declaration2              shift and go to state 62
+
+state 35
+
+    (23) cons_declaration2 -> ID cons_declaration2 .
+
+    COLON           reduce using rule 23 (cons_declaration2 -> ID cons_declaration2 .)
+
+
+state 36
+
+    (24) cons_declaration2 -> ID NUMBER . cons_declaration2
+    (26) cons_declaration2 -> ID NUMBER .
+    (22) cons_declaration2 -> . ID COMMA cons_declaration2
+    (23) cons_declaration2 -> . ID cons_declaration2
+    (24) cons_declaration2 -> . ID NUMBER cons_declaration2
+    (25) cons_declaration2 -> . ID
+    (26) cons_declaration2 -> . ID NUMBER
+
+    COLON           reduce using rule 26 (cons_declaration2 -> ID NUMBER .)
+    ID              shift and go to state 21
+
+    cons_declaration2              shift and go to state 63
+
+state 37
+
+    (10) nom_declaration -> PROGRAM ID SEMICOLON .
+
+    VAR             reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    PROCEDURE       reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    CONST           reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    PROGRAM         reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    TYPE            reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    USES            reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+    $end            reduce using rule 10 (nom_declaration -> PROGRAM ID SEMICOLON .)
+
+
+state 38
+
+    (11) nom_declaration -> PROGRAM ID NUMBER . SEMICOLON
+
+    SEMICOLON       shift and go to state 64
+
+
+state 39
+
+    (12) nom_declaration -> PROGRAM NUMBER SEMICOLON .
+
+    VAR             reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    PROCEDURE       reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    CONST           reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    PROGRAM         reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    TYPE            reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    USES            reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+    $end            reduce using rule 12 (nom_declaration -> PROGRAM NUMBER SEMICOLON .)
+
+
+state 40
+
+    (13) nom_declaration -> PROGRAM NUMBER ID . SEMICOLON
+
+    SEMICOLON       shift and go to state 65
+
+
+state 41
+
+    (27) tipo_declaration -> TYPE tipo_declaration2 COLON . type_specifier SEMICOLON
+    (31) type_specifier -> . INTEGER
+    (32) type_specifier -> . REAL
+    (33) type_specifier -> . STRING
+    (34) type_specifier -> . BOOLEAN
+    (35) type_specifier -> . CHAR
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    STRING          shift and go to state 48
+    BOOLEAN         shift and go to state 49
+    CHAR            shift and go to state 50
+
+    type_specifier                 shift and go to state 66
+
+state 42
+
+    (28) tipo_declaration -> TYPE tipo_declaration2 EQUAL . RECORD SEMICOLON
+
+    RECORD          shift and go to state 67
+
+
+state 43
+
+    (30) tipo_declaration2 -> ID NUMBER .
+
+    COLON           reduce using rule 30 (tipo_declaration2 -> ID NUMBER .)
+    EQUAL           reduce using rule 30 (tipo_declaration2 -> ID NUMBER .)
+
+
+state 44
+
+    (14) impo_declaration -> USES ID SEMICOLON .
+
+    VAR             reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    PROCEDURE       reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    CONST           reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    PROGRAM         reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    TYPE            reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    USES            reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+    $end            reduce using rule 14 (impo_declaration -> USES ID SEMICOLON .)
+
+
+state 45
+
+    (15) var_declaration -> VAR var_declaration2 COLON type_specifier . SEMICOLON
+
+    SEMICOLON       shift and go to state 68
+
+
+state 46
+
+    (31) type_specifier -> INTEGER .
+
+    SEMICOLON       reduce using rule 31 (type_specifier -> INTEGER .)
+    COLON           reduce using rule 31 (type_specifier -> INTEGER .)
+    COMMA           reduce using rule 31 (type_specifier -> INTEGER .)
+    CPAREN          reduce using rule 31 (type_specifier -> INTEGER .)
+
+
+state 47
+
+    (32) type_specifier -> REAL .
+
+    SEMICOLON       reduce using rule 32 (type_specifier -> REAL .)
+    COLON           reduce using rule 32 (type_specifier -> REAL .)
+    COMMA           reduce using rule 32 (type_specifier -> REAL .)
+    CPAREN          reduce using rule 32 (type_specifier -> REAL .)
+
+
+state 48
+
+    (33) type_specifier -> STRING .
+
+    SEMICOLON       reduce using rule 33 (type_specifier -> STRING .)
+    COLON           reduce using rule 33 (type_specifier -> STRING .)
+    COMMA           reduce using rule 33 (type_specifier -> STRING .)
+    CPAREN          reduce using rule 33 (type_specifier -> STRING .)
+
+
+state 49
+
+    (34) type_specifier -> BOOLEAN .
+
+    SEMICOLON       reduce using rule 34 (type_specifier -> BOOLEAN .)
+    COLON           reduce using rule 34 (type_specifier -> BOOLEAN .)
+    COMMA           reduce using rule 34 (type_specifier -> BOOLEAN .)
+    CPAREN          reduce using rule 34 (type_specifier -> BOOLEAN .)
+
+
+state 50
+
+    (35) type_specifier -> CHAR .
+
+    SEMICOLON       reduce using rule 35 (type_specifier -> CHAR .)
+    COLON           reduce using rule 35 (type_specifier -> CHAR .)
+    COMMA           reduce using rule 35 (type_specifier -> CHAR .)
+    CPAREN          reduce using rule 35 (type_specifier -> CHAR .)
+
+
+state 51
+
+    (16) var_declaration2 -> ID COMMA var_declaration2 .
+
+    COLON           reduce using rule 16 (var_declaration2 -> ID COMMA var_declaration2 .)
+
+
+state 52
+
+    (18) var_declaration2 -> ID NUMBER var_declaration2 .
+
+    COLON           reduce using rule 18 (var_declaration2 -> ID NUMBER var_declaration2 .)
+
+
+state 53
+
+    (43) param -> ID . COLON type_specifier
+
+    COLON           shift and go to state 69
+
+
+state 54
+
+    (36) proce_declaration -> PROCEDURE ID APAREN params . CPAREN SEMICOLON compount_stmt
+
+    CPAREN          shift and go to state 70
+
+
+state 55
+
+    (38) params -> param_list .
+    (39) param_list -> param_list . COLON type_specifier SEMICOLON param
+    (40) param_list -> param_list . COMMA param
+
+    CPAREN          reduce using rule 38 (params -> param_list .)
+    COLON           shift and go to state 71
+    COMMA           shift and go to state 72
+
+
+state 56
+
+    (41) param_list -> param .
+
+    COLON           reduce using rule 41 (param_list -> param .)
+    COMMA           reduce using rule 41 (param_list -> param .)
+    CPAREN          reduce using rule 41 (param_list -> param .)
+
+
+state 57
+
+    (42) param_list -> empty .
+
+    COLON           reduce using rule 42 (param_list -> empty .)
+    COMMA           reduce using rule 42 (param_list -> empty .)
+    CPAREN          reduce using rule 42 (param_list -> empty .)
+
+
+state 58
+
+    (37) proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .
+
+    VAR             reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    PROCEDURE       reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    CONST           reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    PROGRAM         reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    TYPE            reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    USES            reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    $end            reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+    SEMICOLON       reduce using rule 37 (proce_declaration -> PROCEDURE ID SEMICOLON compount_stmt .)
+
+
+state 59
+
+    (44) compount_stmt -> var_declaration . BEGIN local_declaration statement_list END
+
+    BEGIN           shift and go to state 73
+
+
+state 60
+
+    (45) compount_stmt -> BEGIN . local_declaration statement_list END
+    (46) local_declaration -> . empty
+    (47) local_declaration -> . ID COLON EQUAL ID
+    (48) local_declaration -> . ID COLON EQUAL NUMBER
+    (49) local_declaration -> . NUMBER COLON EQUAL NUMBER
+    (50) local_declaration -> . ID NUMBER COLON EQUAL ID
+    (51) local_declaration -> . NUMBER COLON EQUAL ID
+    (98) empty -> .
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+    ID              shift and go to state 76
+    NUMBER          shift and go to state 77
+    END             reduce using rule 98 (empty -> .)
+    SEMICOLON       reduce using rule 98 (empty -> .)
+    BEGIN           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    CASE            reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    VAR             reduce using rule 98 (empty -> .)
+    APAREN          reduce using rule 98 (empty -> .)
+
+  ! ID              [ reduce using rule 98 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 98 (empty -> .) ]
+
+    local_declaration              shift and go to state 74
+    empty                          shift and go to state 75
+
+state 61
+
+    (21) cons_declaration -> CONST cons_declaration2 COLON type_specifier . SEMICOLON
+
+    SEMICOLON       shift and go to state 78
+
+
+state 62
+
+    (22) cons_declaration2 -> ID COMMA cons_declaration2 .
+
+    COLON           reduce using rule 22 (cons_declaration2 -> ID COMMA cons_declaration2 .)
+
+
+state 63
+
+    (24) cons_declaration2 -> ID NUMBER cons_declaration2 .
+
+    COLON           reduce using rule 24 (cons_declaration2 -> ID NUMBER cons_declaration2 .)
+
+
+state 64
+
+    (11) nom_declaration -> PROGRAM ID NUMBER SEMICOLON .
+
+    VAR             reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    PROCEDURE       reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    CONST           reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    PROGRAM         reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    TYPE            reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    USES            reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+    $end            reduce using rule 11 (nom_declaration -> PROGRAM ID NUMBER SEMICOLON .)
+
+
+state 65
+
+    (13) nom_declaration -> PROGRAM NUMBER ID SEMICOLON .
+
+    VAR             reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    PROCEDURE       reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    CONST           reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    PROGRAM         reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    TYPE            reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    USES            reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+    $end            reduce using rule 13 (nom_declaration -> PROGRAM NUMBER ID SEMICOLON .)
+
+
+state 66
+
+    (27) tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier . SEMICOLON
+
+    SEMICOLON       shift and go to state 79
+
+
+state 67
+
+    (28) tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD . SEMICOLON
+
+    SEMICOLON       shift and go to state 80
+
+
+state 68
+
+    (15) var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .
+
+    VAR             reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    PROCEDURE       reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    CONST           reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    PROGRAM         reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    TYPE            reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    USES            reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    $end            reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+    BEGIN           reduce using rule 15 (var_declaration -> VAR var_declaration2 COLON type_specifier SEMICOLON .)
+
+
+state 69
+
+    (43) param -> ID COLON . type_specifier
+    (31) type_specifier -> . INTEGER
+    (32) type_specifier -> . REAL
+    (33) type_specifier -> . STRING
+    (34) type_specifier -> . BOOLEAN
+    (35) type_specifier -> . CHAR
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    STRING          shift and go to state 48
+    BOOLEAN         shift and go to state 49
+    CHAR            shift and go to state 50
+
+    type_specifier                 shift and go to state 81
+
+state 70
+
+    (36) proce_declaration -> PROCEDURE ID APAREN params CPAREN . SEMICOLON compount_stmt
+
+    SEMICOLON       shift and go to state 82
+
+
+state 71
+
+    (39) param_list -> param_list COLON . type_specifier SEMICOLON param
+    (31) type_specifier -> . INTEGER
+    (32) type_specifier -> . REAL
+    (33) type_specifier -> . STRING
+    (34) type_specifier -> . BOOLEAN
+    (35) type_specifier -> . CHAR
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    STRING          shift and go to state 48
+    BOOLEAN         shift and go to state 49
+    CHAR            shift and go to state 50
+
+    type_specifier                 shift and go to state 83
+
+state 72
+
+    (40) param_list -> param_list COMMA . param
+    (43) param -> . ID COLON type_specifier
+
+    ID              shift and go to state 53
+
+    param                          shift and go to state 84
+
+state 73
+
+    (44) compount_stmt -> var_declaration BEGIN . local_declaration statement_list END
+    (46) local_declaration -> . empty
+    (47) local_declaration -> . ID COLON EQUAL ID
+    (48) local_declaration -> . ID COLON EQUAL NUMBER
+    (49) local_declaration -> . NUMBER COLON EQUAL NUMBER
+    (50) local_declaration -> . ID NUMBER COLON EQUAL ID
+    (51) local_declaration -> . NUMBER COLON EQUAL ID
+    (98) empty -> .
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+    ID              shift and go to state 76
+    NUMBER          shift and go to state 77
+    END             reduce using rule 98 (empty -> .)
+    SEMICOLON       reduce using rule 98 (empty -> .)
+    BEGIN           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    CASE            reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    VAR             reduce using rule 98 (empty -> .)
+    APAREN          reduce using rule 98 (empty -> .)
+
+  ! ID              [ reduce using rule 98 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 98 (empty -> .) ]
+
+    local_declaration              shift and go to state 85
+    empty                          shift and go to state 75
+
+state 74
+
+    (45) compount_stmt -> BEGIN local_declaration . statement_list END
+    (52) statement_list -> . statement_list statement
+    (53) statement_list -> . empty
+    (98) empty -> .
+
+    END             reduce using rule 98 (empty -> .)
+    SEMICOLON       reduce using rule 98 (empty -> .)
+    BEGIN           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    CASE            reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    VAR             reduce using rule 98 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    APAREN          reduce using rule 98 (empty -> .)
+    NUMBER          reduce using rule 98 (empty -> .)
+
+    statement_list                 shift and go to state 86
+    empty                          shift and go to state 87
+
+state 75
+
+    (46) local_declaration -> empty .
+
+    END             reduce using rule 46 (local_declaration -> empty .)
+    SEMICOLON       reduce using rule 46 (local_declaration -> empty .)
+    BEGIN           reduce using rule 46 (local_declaration -> empty .)
+    IF              reduce using rule 46 (local_declaration -> empty .)
+    CASE            reduce using rule 46 (local_declaration -> empty .)
+    WHILE           reduce using rule 46 (local_declaration -> empty .)
+    FOR             reduce using rule 46 (local_declaration -> empty .)
+    RETURN          reduce using rule 46 (local_declaration -> empty .)
+    VAR             reduce using rule 46 (local_declaration -> empty .)
+    ID              reduce using rule 46 (local_declaration -> empty .)
+    APAREN          reduce using rule 46 (local_declaration -> empty .)
+    NUMBER          reduce using rule 46 (local_declaration -> empty .)
+
+
+state 76
+
+    (47) local_declaration -> ID . COLON EQUAL ID
+    (48) local_declaration -> ID . COLON EQUAL NUMBER
+    (50) local_declaration -> ID . NUMBER COLON EQUAL ID
+
+    COLON           shift and go to state 88
+    NUMBER          shift and go to state 89
+
+
+state 77
+
+    (49) local_declaration -> NUMBER . COLON EQUAL NUMBER
+    (51) local_declaration -> NUMBER . COLON EQUAL ID
+
+    COLON           shift and go to state 90
+
+
+state 78
+
+    (21) cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .
+
+    VAR             reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    PROCEDURE       reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    CONST           reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    PROGRAM         reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    TYPE            reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    USES            reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+    $end            reduce using rule 21 (cons_declaration -> CONST cons_declaration2 COLON type_specifier SEMICOLON .)
+
+
+state 79
+
+    (27) tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .
+
+    VAR             reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    PROCEDURE       reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    CONST           reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    PROGRAM         reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    TYPE            reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    USES            reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+    $end            reduce using rule 27 (tipo_declaration -> TYPE tipo_declaration2 COLON type_specifier SEMICOLON .)
+
+
+state 80
+
+    (28) tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .
+
+    VAR             reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    PROCEDURE       reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    CONST           reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    PROGRAM         reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    TYPE            reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    USES            reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+    $end            reduce using rule 28 (tipo_declaration -> TYPE tipo_declaration2 EQUAL RECORD SEMICOLON .)
+
+
+state 81
+
+    (43) param -> ID COLON type_specifier .
+
+    COLON           reduce using rule 43 (param -> ID COLON type_specifier .)
+    COMMA           reduce using rule 43 (param -> ID COLON type_specifier .)
+    CPAREN          reduce using rule 43 (param -> ID COLON type_specifier .)
+
+
+state 82
+
+    (36) proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON . compount_stmt
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+
+    BEGIN           shift and go to state 60
+    VAR             shift and go to state 10
+
+    compount_stmt                  shift and go to state 91
+    var_declaration                shift and go to state 59
+
+state 83
+
+    (39) param_list -> param_list COLON type_specifier . SEMICOLON param
+
+    SEMICOLON       shift and go to state 92
+
+
+state 84
+
+    (40) param_list -> param_list COMMA param .
+
+    COLON           reduce using rule 40 (param_list -> param_list COMMA param .)
+    COMMA           reduce using rule 40 (param_list -> param_list COMMA param .)
+    CPAREN          reduce using rule 40 (param_list -> param_list COMMA param .)
+
+
+state 85
+
+    (44) compount_stmt -> var_declaration BEGIN local_declaration . statement_list END
+    (52) statement_list -> . statement_list statement
+    (53) statement_list -> . empty
+    (98) empty -> .
+
+    END             reduce using rule 98 (empty -> .)
+    SEMICOLON       reduce using rule 98 (empty -> .)
+    BEGIN           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    CASE            reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    VAR             reduce using rule 98 (empty -> .)
+    ID              reduce using rule 98 (empty -> .)
+    APAREN          reduce using rule 98 (empty -> .)
+    NUMBER          reduce using rule 98 (empty -> .)
+
+    statement_list                 shift and go to state 93
+    empty                          shift and go to state 87
+
+state 86
+
+    (45) compount_stmt -> BEGIN local_declaration statement_list . END
+    (52) statement_list -> statement_list . statement
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    END             shift and go to state 94
+    SEMICOLON       shift and go to state 102
+    BEGIN           shift and go to state 60
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    statement                      shift and go to state 95
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    expression                     shift and go to state 101
+    var_declaration                shift and go to state 59
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 87
+
+    (53) statement_list -> empty .
+
+    END             reduce using rule 53 (statement_list -> empty .)
+    SEMICOLON       reduce using rule 53 (statement_list -> empty .)
+    BEGIN           reduce using rule 53 (statement_list -> empty .)
+    IF              reduce using rule 53 (statement_list -> empty .)
+    CASE            reduce using rule 53 (statement_list -> empty .)
+    WHILE           reduce using rule 53 (statement_list -> empty .)
+    FOR             reduce using rule 53 (statement_list -> empty .)
+    RETURN          reduce using rule 53 (statement_list -> empty .)
+    VAR             reduce using rule 53 (statement_list -> empty .)
+    ID              reduce using rule 53 (statement_list -> empty .)
+    APAREN          reduce using rule 53 (statement_list -> empty .)
+    NUMBER          reduce using rule 53 (statement_list -> empty .)
+
+
+state 88
+
+    (47) local_declaration -> ID COLON . EQUAL ID
+    (48) local_declaration -> ID COLON . EQUAL NUMBER
+
+    EQUAL           shift and go to state 117
+
+
+state 89
+
+    (50) local_declaration -> ID NUMBER . COLON EQUAL ID
+
+    COLON           shift and go to state 118
+
+
+state 90
+
+    (49) local_declaration -> NUMBER COLON . EQUAL NUMBER
+    (51) local_declaration -> NUMBER COLON . EQUAL ID
+
+    EQUAL           shift and go to state 119
+
+
+state 91
+
+    (36) proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .
+
+    VAR             reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    PROCEDURE       reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    CONST           reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    PROGRAM         reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    TYPE            reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    USES            reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    $end            reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+    SEMICOLON       reduce using rule 36 (proce_declaration -> PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt .)
+
+
+state 92
+
+    (39) param_list -> param_list COLON type_specifier SEMICOLON . param
+    (43) param -> . ID COLON type_specifier
+
+    ID              shift and go to state 53
+
+    param                          shift and go to state 120
+
+state 93
+
+    (44) compount_stmt -> var_declaration BEGIN local_declaration statement_list . END
+    (52) statement_list -> statement_list . statement
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    END             shift and go to state 121
+    SEMICOLON       shift and go to state 102
+    BEGIN           shift and go to state 60
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    var_declaration                shift and go to state 59
+    statement                      shift and go to state 95
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    expression                     shift and go to state 101
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 94
+
+    (45) compount_stmt -> BEGIN local_declaration statement_list END .
+
+    VAR             reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    PROCEDURE       reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    CONST           reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    PROGRAM         reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    TYPE            reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    USES            reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    $end            reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    SEMICOLON       reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    END             reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    BEGIN           reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    IF              reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    CASE            reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    WHILE           reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    FOR             reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    RETURN          reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    ID              reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    APAREN          reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+    NUMBER          reduce using rule 45 (compount_stmt -> BEGIN local_declaration statement_list END .)
+
+
+state 95
+
+    (52) statement_list -> statement_list statement .
+
+    END             reduce using rule 52 (statement_list -> statement_list statement .)
+    SEMICOLON       reduce using rule 52 (statement_list -> statement_list statement .)
+    BEGIN           reduce using rule 52 (statement_list -> statement_list statement .)
+    IF              reduce using rule 52 (statement_list -> statement_list statement .)
+    CASE            reduce using rule 52 (statement_list -> statement_list statement .)
+    WHILE           reduce using rule 52 (statement_list -> statement_list statement .)
+    FOR             reduce using rule 52 (statement_list -> statement_list statement .)
+    RETURN          reduce using rule 52 (statement_list -> statement_list statement .)
+    VAR             reduce using rule 52 (statement_list -> statement_list statement .)
+    ID              reduce using rule 52 (statement_list -> statement_list statement .)
+    APAREN          reduce using rule 52 (statement_list -> statement_list statement .)
+    NUMBER          reduce using rule 52 (statement_list -> statement_list statement .)
+
+
+state 96
+
+    (54) statement -> expression_stmt .
+
+    END             reduce using rule 54 (statement -> expression_stmt .)
+    SEMICOLON       reduce using rule 54 (statement -> expression_stmt .)
+    BEGIN           reduce using rule 54 (statement -> expression_stmt .)
+    IF              reduce using rule 54 (statement -> expression_stmt .)
+    CASE            reduce using rule 54 (statement -> expression_stmt .)
+    WHILE           reduce using rule 54 (statement -> expression_stmt .)
+    FOR             reduce using rule 54 (statement -> expression_stmt .)
+    RETURN          reduce using rule 54 (statement -> expression_stmt .)
+    VAR             reduce using rule 54 (statement -> expression_stmt .)
+    ID              reduce using rule 54 (statement -> expression_stmt .)
+    APAREN          reduce using rule 54 (statement -> expression_stmt .)
+    NUMBER          reduce using rule 54 (statement -> expression_stmt .)
+
+
+state 97
+
+    (55) statement -> compount_stmt .
+
+    END             reduce using rule 55 (statement -> compount_stmt .)
+    SEMICOLON       reduce using rule 55 (statement -> compount_stmt .)
+    BEGIN           reduce using rule 55 (statement -> compount_stmt .)
+    IF              reduce using rule 55 (statement -> compount_stmt .)
+    CASE            reduce using rule 55 (statement -> compount_stmt .)
+    WHILE           reduce using rule 55 (statement -> compount_stmt .)
+    FOR             reduce using rule 55 (statement -> compount_stmt .)
+    RETURN          reduce using rule 55 (statement -> compount_stmt .)
+    VAR             reduce using rule 55 (statement -> compount_stmt .)
+    ID              reduce using rule 55 (statement -> compount_stmt .)
+    APAREN          reduce using rule 55 (statement -> compount_stmt .)
+    NUMBER          reduce using rule 55 (statement -> compount_stmt .)
+
+
+state 98
+
+    (56) statement -> selection_stmt .
+
+    END             reduce using rule 56 (statement -> selection_stmt .)
+    SEMICOLON       reduce using rule 56 (statement -> selection_stmt .)
+    BEGIN           reduce using rule 56 (statement -> selection_stmt .)
+    IF              reduce using rule 56 (statement -> selection_stmt .)
+    CASE            reduce using rule 56 (statement -> selection_stmt .)
+    WHILE           reduce using rule 56 (statement -> selection_stmt .)
+    FOR             reduce using rule 56 (statement -> selection_stmt .)
+    RETURN          reduce using rule 56 (statement -> selection_stmt .)
+    VAR             reduce using rule 56 (statement -> selection_stmt .)
+    ID              reduce using rule 56 (statement -> selection_stmt .)
+    APAREN          reduce using rule 56 (statement -> selection_stmt .)
+    NUMBER          reduce using rule 56 (statement -> selection_stmt .)
+
+
+state 99
+
+    (57) statement -> iteration_stmt .
+
+    END             reduce using rule 57 (statement -> iteration_stmt .)
+    SEMICOLON       reduce using rule 57 (statement -> iteration_stmt .)
+    BEGIN           reduce using rule 57 (statement -> iteration_stmt .)
+    IF              reduce using rule 57 (statement -> iteration_stmt .)
+    CASE            reduce using rule 57 (statement -> iteration_stmt .)
+    WHILE           reduce using rule 57 (statement -> iteration_stmt .)
+    FOR             reduce using rule 57 (statement -> iteration_stmt .)
+    RETURN          reduce using rule 57 (statement -> iteration_stmt .)
+    VAR             reduce using rule 57 (statement -> iteration_stmt .)
+    ID              reduce using rule 57 (statement -> iteration_stmt .)
+    APAREN          reduce using rule 57 (statement -> iteration_stmt .)
+    NUMBER          reduce using rule 57 (statement -> iteration_stmt .)
+
+
+state 100
+
+    (58) statement -> return_stmt .
+
+    END             reduce using rule 58 (statement -> return_stmt .)
+    SEMICOLON       reduce using rule 58 (statement -> return_stmt .)
+    BEGIN           reduce using rule 58 (statement -> return_stmt .)
+    IF              reduce using rule 58 (statement -> return_stmt .)
+    CASE            reduce using rule 58 (statement -> return_stmt .)
+    WHILE           reduce using rule 58 (statement -> return_stmt .)
+    FOR             reduce using rule 58 (statement -> return_stmt .)
+    RETURN          reduce using rule 58 (statement -> return_stmt .)
+    VAR             reduce using rule 58 (statement -> return_stmt .)
+    ID              reduce using rule 58 (statement -> return_stmt .)
+    APAREN          reduce using rule 58 (statement -> return_stmt .)
+    NUMBER          reduce using rule 58 (statement -> return_stmt .)
+
+
+state 101
+
+    (59) expression_stmt -> expression . SEMICOLON
+
+    SEMICOLON       shift and go to state 122
+
+
+state 102
+
+    (60) expression_stmt -> SEMICOLON .
+
+    END             reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    SEMICOLON       reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    BEGIN           reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    IF              reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    CASE            reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    WHILE           reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    FOR             reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    RETURN          reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    VAR             reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    ID              reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    APAREN          reduce using rule 60 (expression_stmt -> SEMICOLON .)
+    NUMBER          reduce using rule 60 (expression_stmt -> SEMICOLON .)
+
+
+state 103
+
+    (61) selection_stmt -> IF . expression THEN statement SEMICOLON
+    (62) selection_stmt -> IF . expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> IF . expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 123
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 104
+
+    (64) selection_stmt -> CASE . expression OF statement END SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 124
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 105
+
+    (65) iteration_stmt -> WHILE . expression DO BEGIN statement END SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 125
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 106
+
+    (66) iteration_stmt -> FOR . expression TO expression DO BEGIN statement END SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 126
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 107
+
+    (67) return_stmt -> RETURN . SEMICOLON
+    (68) return_stmt -> RETURN . expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    SEMICOLON       shift and go to state 127
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 128
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 108
+
+    (69) expression -> var . COLON EQUAL expression
+    (71) expression -> var . EQUAL AMPERSANT ID
+    (89) factor -> var .
+
+    COLON           shift and go to state 129
+    EQUAL           shift and go to state 130
+    MUL             reduce using rule 89 (factor -> var .)
+    DIVI            reduce using rule 89 (factor -> var .)
+    MENOR           reduce using rule 89 (factor -> var .)
+    MENORIGUAL      reduce using rule 89 (factor -> var .)
+    MAYOR           reduce using rule 89 (factor -> var .)
+    MAYORIGUAL      reduce using rule 89 (factor -> var .)
+    IGUALNOT        reduce using rule 89 (factor -> var .)
+    SUM             reduce using rule 89 (factor -> var .)
+    RES             reduce using rule 89 (factor -> var .)
+    SEMICOLON       reduce using rule 89 (factor -> var .)
+    THEN            reduce using rule 89 (factor -> var .)
+    OF              reduce using rule 89 (factor -> var .)
+    DO              reduce using rule 89 (factor -> var .)
+    TO              reduce using rule 89 (factor -> var .)
+    CPAREN          reduce using rule 89 (factor -> var .)
+    COMMA           reduce using rule 89 (factor -> var .)
+
+
+state 109
+
+    (70) expression -> simple_expression .
+
+    SEMICOLON       reduce using rule 70 (expression -> simple_expression .)
+    THEN            reduce using rule 70 (expression -> simple_expression .)
+    OF              reduce using rule 70 (expression -> simple_expression .)
+    DO              reduce using rule 70 (expression -> simple_expression .)
+    TO              reduce using rule 70 (expression -> simple_expression .)
+    CPAREN          reduce using rule 70 (expression -> simple_expression .)
+    COMMA           reduce using rule 70 (expression -> simple_expression .)
+
+
+state 110
+
+    (72) var -> ID .
+    (92) call -> ID . SEMICOLON
+    (93) call -> ID . APAREN args CPAREN SEMICOLON
+
+  ! shift/reduce conflict for SEMICOLON resolved as shift
+    COLON           reduce using rule 72 (var -> ID .)
+    EQUAL           reduce using rule 72 (var -> ID .)
+    MUL             reduce using rule 72 (var -> ID .)
+    DIVI            reduce using rule 72 (var -> ID .)
+    MENOR           reduce using rule 72 (var -> ID .)
+    MENORIGUAL      reduce using rule 72 (var -> ID .)
+    MAYOR           reduce using rule 72 (var -> ID .)
+    MAYORIGUAL      reduce using rule 72 (var -> ID .)
+    IGUALNOT        reduce using rule 72 (var -> ID .)
+    SUM             reduce using rule 72 (var -> ID .)
+    RES             reduce using rule 72 (var -> ID .)
+    THEN            reduce using rule 72 (var -> ID .)
+    OF              reduce using rule 72 (var -> ID .)
+    DO              reduce using rule 72 (var -> ID .)
+    TO              reduce using rule 72 (var -> ID .)
+    CPAREN          reduce using rule 72 (var -> ID .)
+    COMMA           reduce using rule 72 (var -> ID .)
+    SEMICOLON       shift and go to state 131
+    APAREN          shift and go to state 132
+
+  ! SEMICOLON       [ reduce using rule 72 (var -> ID .) ]
+
+
+state 111
+
+    (73) simple_expression -> additive_expression . relop additive_expression
+    (74) simple_expression -> additive_expression .
+    (80) additive_expression -> additive_expression . addop term
+    (75) relop -> . MENOR
+    (76) relop -> . MENORIGUAL
+    (77) relop -> . MAYOR
+    (78) relop -> . MAYORIGUAL
+    (79) relop -> . IGUALNOT
+    (82) addop -> . SUM
+    (83) addop -> . RES
+
+    SEMICOLON       reduce using rule 74 (simple_expression -> additive_expression .)
+    THEN            reduce using rule 74 (simple_expression -> additive_expression .)
+    OF              reduce using rule 74 (simple_expression -> additive_expression .)
+    DO              reduce using rule 74 (simple_expression -> additive_expression .)
+    TO              reduce using rule 74 (simple_expression -> additive_expression .)
+    CPAREN          reduce using rule 74 (simple_expression -> additive_expression .)
+    COMMA           reduce using rule 74 (simple_expression -> additive_expression .)
+    MENOR           shift and go to state 135
+    MENORIGUAL      shift and go to state 136
+    MAYOR           shift and go to state 137
+    MAYORIGUAL      shift and go to state 138
+    IGUALNOT        shift and go to state 139
+    SUM             shift and go to state 140
+    RES             shift and go to state 141
+
+    relop                          shift and go to state 133
+    addop                          shift and go to state 134
+
+state 112
+
+    (81) additive_expression -> term .
+    (84) term -> term . mulop factor
+    (86) mulop -> . MUL
+    (87) mulop -> . DIVI
+
+    MENOR           reduce using rule 81 (additive_expression -> term .)
+    MENORIGUAL      reduce using rule 81 (additive_expression -> term .)
+    MAYOR           reduce using rule 81 (additive_expression -> term .)
+    MAYORIGUAL      reduce using rule 81 (additive_expression -> term .)
+    IGUALNOT        reduce using rule 81 (additive_expression -> term .)
+    SUM             reduce using rule 81 (additive_expression -> term .)
+    RES             reduce using rule 81 (additive_expression -> term .)
+    SEMICOLON       reduce using rule 81 (additive_expression -> term .)
+    THEN            reduce using rule 81 (additive_expression -> term .)
+    OF              reduce using rule 81 (additive_expression -> term .)
+    DO              reduce using rule 81 (additive_expression -> term .)
+    TO              reduce using rule 81 (additive_expression -> term .)
+    CPAREN          reduce using rule 81 (additive_expression -> term .)
+    COMMA           reduce using rule 81 (additive_expression -> term .)
+    MUL             shift and go to state 143
+    DIVI            shift and go to state 144
+
+    mulop                          shift and go to state 142
+
+state 113
+
+    (85) term -> factor .
+
+    MUL             reduce using rule 85 (term -> factor .)
+    DIVI            reduce using rule 85 (term -> factor .)
+    MENOR           reduce using rule 85 (term -> factor .)
+    MENORIGUAL      reduce using rule 85 (term -> factor .)
+    MAYOR           reduce using rule 85 (term -> factor .)
+    MAYORIGUAL      reduce using rule 85 (term -> factor .)
+    IGUALNOT        reduce using rule 85 (term -> factor .)
+    SUM             reduce using rule 85 (term -> factor .)
+    RES             reduce using rule 85 (term -> factor .)
+    SEMICOLON       reduce using rule 85 (term -> factor .)
+    THEN            reduce using rule 85 (term -> factor .)
+    OF              reduce using rule 85 (term -> factor .)
+    DO              reduce using rule 85 (term -> factor .)
+    TO              reduce using rule 85 (term -> factor .)
+    CPAREN          reduce using rule 85 (term -> factor .)
+    COMMA           reduce using rule 85 (term -> factor .)
+
+
+state 114
+
+    (88) factor -> APAREN . expression CPAREN
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 145
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 115
+
+    (90) factor -> call .
+
+    MUL             reduce using rule 90 (factor -> call .)
+    DIVI            reduce using rule 90 (factor -> call .)
+    MENOR           reduce using rule 90 (factor -> call .)
+    MENORIGUAL      reduce using rule 90 (factor -> call .)
+    MAYOR           reduce using rule 90 (factor -> call .)
+    MAYORIGUAL      reduce using rule 90 (factor -> call .)
+    IGUALNOT        reduce using rule 90 (factor -> call .)
+    SUM             reduce using rule 90 (factor -> call .)
+    RES             reduce using rule 90 (factor -> call .)
+    SEMICOLON       reduce using rule 90 (factor -> call .)
+    THEN            reduce using rule 90 (factor -> call .)
+    OF              reduce using rule 90 (factor -> call .)
+    DO              reduce using rule 90 (factor -> call .)
+    TO              reduce using rule 90 (factor -> call .)
+    CPAREN          reduce using rule 90 (factor -> call .)
+    COMMA           reduce using rule 90 (factor -> call .)
+
+
+state 116
+
+    (91) factor -> NUMBER .
+
+    MUL             reduce using rule 91 (factor -> NUMBER .)
+    DIVI            reduce using rule 91 (factor -> NUMBER .)
+    MENOR           reduce using rule 91 (factor -> NUMBER .)
+    MENORIGUAL      reduce using rule 91 (factor -> NUMBER .)
+    MAYOR           reduce using rule 91 (factor -> NUMBER .)
+    MAYORIGUAL      reduce using rule 91 (factor -> NUMBER .)
+    IGUALNOT        reduce using rule 91 (factor -> NUMBER .)
+    SUM             reduce using rule 91 (factor -> NUMBER .)
+    RES             reduce using rule 91 (factor -> NUMBER .)
+    SEMICOLON       reduce using rule 91 (factor -> NUMBER .)
+    THEN            reduce using rule 91 (factor -> NUMBER .)
+    OF              reduce using rule 91 (factor -> NUMBER .)
+    DO              reduce using rule 91 (factor -> NUMBER .)
+    TO              reduce using rule 91 (factor -> NUMBER .)
+    CPAREN          reduce using rule 91 (factor -> NUMBER .)
+    COMMA           reduce using rule 91 (factor -> NUMBER .)
+
+
+state 117
+
+    (47) local_declaration -> ID COLON EQUAL . ID
+    (48) local_declaration -> ID COLON EQUAL . NUMBER
+
+    ID              shift and go to state 146
+    NUMBER          shift and go to state 147
+
+
+state 118
+
+    (50) local_declaration -> ID NUMBER COLON . EQUAL ID
+
+    EQUAL           shift and go to state 148
+
+
+state 119
+
+    (49) local_declaration -> NUMBER COLON EQUAL . NUMBER
+    (51) local_declaration -> NUMBER COLON EQUAL . ID
+
+    NUMBER          shift and go to state 149
+    ID              shift and go to state 150
+
+
+state 120
+
+    (39) param_list -> param_list COLON type_specifier SEMICOLON param .
+
+    COLON           reduce using rule 39 (param_list -> param_list COLON type_specifier SEMICOLON param .)
+    COMMA           reduce using rule 39 (param_list -> param_list COLON type_specifier SEMICOLON param .)
+    CPAREN          reduce using rule 39 (param_list -> param_list COLON type_specifier SEMICOLON param .)
+
+
+state 121
+
+    (44) compount_stmt -> var_declaration BEGIN local_declaration statement_list END .
+
+    VAR             reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    PROCEDURE       reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    CONST           reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    PROGRAM         reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    TYPE            reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    USES            reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    $end            reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    SEMICOLON       reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    END             reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    BEGIN           reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    IF              reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    CASE            reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    WHILE           reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    FOR             reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    RETURN          reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    ID              reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    APAREN          reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+    NUMBER          reduce using rule 44 (compount_stmt -> var_declaration BEGIN local_declaration statement_list END .)
+
+
+state 122
+
+    (59) expression_stmt -> expression SEMICOLON .
+
+    END             reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    SEMICOLON       reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    BEGIN           reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    IF              reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    CASE            reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    WHILE           reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    FOR             reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    RETURN          reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    VAR             reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    ID              reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    APAREN          reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+    NUMBER          reduce using rule 59 (expression_stmt -> expression SEMICOLON .)
+
+
+state 123
+
+    (61) selection_stmt -> IF expression . THEN statement SEMICOLON
+    (62) selection_stmt -> IF expression . THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> IF expression . THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+
+    THEN            shift and go to state 151
+
+
+state 124
+
+    (64) selection_stmt -> CASE expression . OF statement END SEMICOLON
+
+    OF              shift and go to state 152
+
+
+state 125
+
+    (65) iteration_stmt -> WHILE expression . DO BEGIN statement END SEMICOLON
+
+    DO              shift and go to state 153
+
+
+state 126
+
+    (66) iteration_stmt -> FOR expression . TO expression DO BEGIN statement END SEMICOLON
+
+    TO              shift and go to state 154
+
+
+state 127
+
+    (67) return_stmt -> RETURN SEMICOLON .
+
+    END             reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    SEMICOLON       reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    BEGIN           reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    IF              reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    CASE            reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    WHILE           reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    FOR             reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    RETURN          reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    VAR             reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    ID              reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    APAREN          reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+    NUMBER          reduce using rule 67 (return_stmt -> RETURN SEMICOLON .)
+
+
+state 128
+
+    (68) return_stmt -> RETURN expression . SEMICOLON
+
+    SEMICOLON       shift and go to state 155
+
+
+state 129
+
+    (69) expression -> var COLON . EQUAL expression
+
+    EQUAL           shift and go to state 156
+
+
+state 130
+
+    (71) expression -> var EQUAL . AMPERSANT ID
+
+    AMPERSANT       shift and go to state 157
+
+
+state 131
+
+    (92) call -> ID SEMICOLON .
+
+    MUL             reduce using rule 92 (call -> ID SEMICOLON .)
+    DIVI            reduce using rule 92 (call -> ID SEMICOLON .)
+    MENOR           reduce using rule 92 (call -> ID SEMICOLON .)
+    MENORIGUAL      reduce using rule 92 (call -> ID SEMICOLON .)
+    MAYOR           reduce using rule 92 (call -> ID SEMICOLON .)
+    MAYORIGUAL      reduce using rule 92 (call -> ID SEMICOLON .)
+    IGUALNOT        reduce using rule 92 (call -> ID SEMICOLON .)
+    SUM             reduce using rule 92 (call -> ID SEMICOLON .)
+    RES             reduce using rule 92 (call -> ID SEMICOLON .)
+    SEMICOLON       reduce using rule 92 (call -> ID SEMICOLON .)
+    THEN            reduce using rule 92 (call -> ID SEMICOLON .)
+    OF              reduce using rule 92 (call -> ID SEMICOLON .)
+    DO              reduce using rule 92 (call -> ID SEMICOLON .)
+    TO              reduce using rule 92 (call -> ID SEMICOLON .)
+    CPAREN          reduce using rule 92 (call -> ID SEMICOLON .)
+    COMMA           reduce using rule 92 (call -> ID SEMICOLON .)
+
+
+state 132
+
+    (93) call -> ID APAREN . args CPAREN SEMICOLON
+    (94) args -> . args_list
+    (95) args -> . empty
+    (96) args_list -> . args_list COMMA expression
+    (97) args_list -> . expression
+    (98) empty -> .
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    CPAREN          reduce using rule 98 (empty -> .)
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    args                           shift and go to state 158
+    args_list                      shift and go to state 159
+    empty                          shift and go to state 160
+    expression                     shift and go to state 161
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 133
+
+    (73) simple_expression -> additive_expression relop . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (72) var -> . ID
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+    ID              shift and go to state 110
+
+    additive_expression            shift and go to state 162
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    var                            shift and go to state 163
+    call                           shift and go to state 115
+
+state 134
+
+    (80) additive_expression -> additive_expression addop . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (72) var -> . ID
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+    ID              shift and go to state 110
+
+    term                           shift and go to state 164
+    factor                         shift and go to state 113
+    var                            shift and go to state 163
+    call                           shift and go to state 115
+
+state 135
+
+    (75) relop -> MENOR .
+
+    APAREN          reduce using rule 75 (relop -> MENOR .)
+    NUMBER          reduce using rule 75 (relop -> MENOR .)
+    ID              reduce using rule 75 (relop -> MENOR .)
+
+
+state 136
+
+    (76) relop -> MENORIGUAL .
+
+    APAREN          reduce using rule 76 (relop -> MENORIGUAL .)
+    NUMBER          reduce using rule 76 (relop -> MENORIGUAL .)
+    ID              reduce using rule 76 (relop -> MENORIGUAL .)
+
+
+state 137
+
+    (77) relop -> MAYOR .
+
+    APAREN          reduce using rule 77 (relop -> MAYOR .)
+    NUMBER          reduce using rule 77 (relop -> MAYOR .)
+    ID              reduce using rule 77 (relop -> MAYOR .)
+
+
+state 138
+
+    (78) relop -> MAYORIGUAL .
+
+    APAREN          reduce using rule 78 (relop -> MAYORIGUAL .)
+    NUMBER          reduce using rule 78 (relop -> MAYORIGUAL .)
+    ID              reduce using rule 78 (relop -> MAYORIGUAL .)
+
+
+state 139
+
+    (79) relop -> IGUALNOT .
+
+    APAREN          reduce using rule 79 (relop -> IGUALNOT .)
+    NUMBER          reduce using rule 79 (relop -> IGUALNOT .)
+    ID              reduce using rule 79 (relop -> IGUALNOT .)
+
+
+state 140
+
+    (82) addop -> SUM .
+
+    APAREN          reduce using rule 82 (addop -> SUM .)
+    NUMBER          reduce using rule 82 (addop -> SUM .)
+    ID              reduce using rule 82 (addop -> SUM .)
+
+
+state 141
+
+    (83) addop -> RES .
+
+    APAREN          reduce using rule 83 (addop -> RES .)
+    NUMBER          reduce using rule 83 (addop -> RES .)
+    ID              reduce using rule 83 (addop -> RES .)
+
+
+state 142
+
+    (84) term -> term mulop . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (72) var -> . ID
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+    ID              shift and go to state 110
+
+    factor                         shift and go to state 165
+    var                            shift and go to state 163
+    call                           shift and go to state 115
+
+state 143
+
+    (86) mulop -> MUL .
+
+    APAREN          reduce using rule 86 (mulop -> MUL .)
+    NUMBER          reduce using rule 86 (mulop -> MUL .)
+    ID              reduce using rule 86 (mulop -> MUL .)
+
+
+state 144
+
+    (87) mulop -> DIVI .
+
+    APAREN          reduce using rule 87 (mulop -> DIVI .)
+    NUMBER          reduce using rule 87 (mulop -> DIVI .)
+    ID              reduce using rule 87 (mulop -> DIVI .)
+
+
+state 145
+
+    (88) factor -> APAREN expression . CPAREN
+
+    CPAREN          shift and go to state 166
+
+
+state 146
+
+    (47) local_declaration -> ID COLON EQUAL ID .
+
+    END             reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    SEMICOLON       reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    BEGIN           reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    IF              reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    CASE            reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    WHILE           reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    FOR             reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    RETURN          reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    VAR             reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    ID              reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    APAREN          reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+    NUMBER          reduce using rule 47 (local_declaration -> ID COLON EQUAL ID .)
+
+
+state 147
+
+    (48) local_declaration -> ID COLON EQUAL NUMBER .
+
+    END             reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    SEMICOLON       reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    BEGIN           reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    IF              reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    CASE            reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    WHILE           reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    FOR             reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    RETURN          reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    VAR             reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    ID              reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    APAREN          reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+    NUMBER          reduce using rule 48 (local_declaration -> ID COLON EQUAL NUMBER .)
+
+
+state 148
+
+    (50) local_declaration -> ID NUMBER COLON EQUAL . ID
+
+    ID              shift and go to state 167
+
+
+state 149
+
+    (49) local_declaration -> NUMBER COLON EQUAL NUMBER .
+
+    END             reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    SEMICOLON       reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    BEGIN           reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    IF              reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    CASE            reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    WHILE           reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    FOR             reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    RETURN          reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    VAR             reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    ID              reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    APAREN          reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+    NUMBER          reduce using rule 49 (local_declaration -> NUMBER COLON EQUAL NUMBER .)
+
+
+state 150
+
+    (51) local_declaration -> NUMBER COLON EQUAL ID .
+
+    END             reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    SEMICOLON       reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    BEGIN           reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    IF              reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    CASE            reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    WHILE           reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    FOR             reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    RETURN          reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    VAR             reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    ID              reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    APAREN          reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+    NUMBER          reduce using rule 51 (local_declaration -> NUMBER COLON EQUAL ID .)
+
+
+state 151
+
+    (61) selection_stmt -> IF expression THEN . statement SEMICOLON
+    (62) selection_stmt -> IF expression THEN . BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> IF expression THEN . BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    BEGIN           shift and go to state 169
+    SEMICOLON       shift and go to state 102
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 101
+    statement                      shift and go to state 168
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    var_declaration                shift and go to state 59
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 152
+
+    (64) selection_stmt -> CASE expression OF . statement END SEMICOLON
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    SEMICOLON       shift and go to state 102
+    BEGIN           shift and go to state 60
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 101
+    statement                      shift and go to state 170
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    var_declaration                shift and go to state 59
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 153
+
+    (65) iteration_stmt -> WHILE expression DO . BEGIN statement END SEMICOLON
+
+    BEGIN           shift and go to state 171
+
+
+state 154
+
+    (66) iteration_stmt -> FOR expression TO . expression DO BEGIN statement END SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 172
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 155
+
+    (68) return_stmt -> RETURN expression SEMICOLON .
+
+    END             reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    SEMICOLON       reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    BEGIN           reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    IF              reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    CASE            reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    WHILE           reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    FOR             reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    RETURN          reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    VAR             reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    ID              reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    APAREN          reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+    NUMBER          reduce using rule 68 (return_stmt -> RETURN expression SEMICOLON .)
+
+
+state 156
+
+    (69) expression -> var COLON EQUAL . expression
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    var                            shift and go to state 108
+    expression                     shift and go to state 173
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 157
+
+    (71) expression -> var EQUAL AMPERSANT . ID
+
+    ID              shift and go to state 174
+
+
+state 158
+
+    (93) call -> ID APAREN args . CPAREN SEMICOLON
+
+    CPAREN          shift and go to state 175
+
+
+state 159
+
+    (94) args -> args_list .
+    (96) args_list -> args_list . COMMA expression
+
+    CPAREN          reduce using rule 94 (args -> args_list .)
+    COMMA           shift and go to state 176
+
+
+state 160
+
+    (95) args -> empty .
+
+    CPAREN          reduce using rule 95 (args -> empty .)
+
+
+state 161
+
+    (97) args_list -> expression .
+
+    COMMA           reduce using rule 97 (args_list -> expression .)
+    CPAREN          reduce using rule 97 (args_list -> expression .)
+
+
+state 162
+
+    (73) simple_expression -> additive_expression relop additive_expression .
+    (80) additive_expression -> additive_expression . addop term
+    (82) addop -> . SUM
+    (83) addop -> . RES
+
+    SEMICOLON       reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    THEN            reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    OF              reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    DO              reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    TO              reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    CPAREN          reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    COMMA           reduce using rule 73 (simple_expression -> additive_expression relop additive_expression .)
+    SUM             shift and go to state 140
+    RES             shift and go to state 141
+
+    addop                          shift and go to state 134
+
+state 163
+
+    (89) factor -> var .
+
+    MUL             reduce using rule 89 (factor -> var .)
+    DIVI            reduce using rule 89 (factor -> var .)
+    SUM             reduce using rule 89 (factor -> var .)
+    RES             reduce using rule 89 (factor -> var .)
+    SEMICOLON       reduce using rule 89 (factor -> var .)
+    THEN            reduce using rule 89 (factor -> var .)
+    OF              reduce using rule 89 (factor -> var .)
+    DO              reduce using rule 89 (factor -> var .)
+    TO              reduce using rule 89 (factor -> var .)
+    CPAREN          reduce using rule 89 (factor -> var .)
+    COMMA           reduce using rule 89 (factor -> var .)
+    MENOR           reduce using rule 89 (factor -> var .)
+    MENORIGUAL      reduce using rule 89 (factor -> var .)
+    MAYOR           reduce using rule 89 (factor -> var .)
+    MAYORIGUAL      reduce using rule 89 (factor -> var .)
+    IGUALNOT        reduce using rule 89 (factor -> var .)
+
+
+state 164
+
+    (80) additive_expression -> additive_expression addop term .
+    (84) term -> term . mulop factor
+    (86) mulop -> . MUL
+    (87) mulop -> . DIVI
+
+    MENOR           reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    MENORIGUAL      reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    MAYOR           reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    MAYORIGUAL      reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    IGUALNOT        reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    SUM             reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    RES             reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    SEMICOLON       reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    THEN            reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    OF              reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    DO              reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    TO              reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    CPAREN          reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    COMMA           reduce using rule 80 (additive_expression -> additive_expression addop term .)
+    MUL             shift and go to state 143
+    DIVI            shift and go to state 144
+
+    mulop                          shift and go to state 142
+
+state 165
+
+    (84) term -> term mulop factor .
+
+    MUL             reduce using rule 84 (term -> term mulop factor .)
+    DIVI            reduce using rule 84 (term -> term mulop factor .)
+    MENOR           reduce using rule 84 (term -> term mulop factor .)
+    MENORIGUAL      reduce using rule 84 (term -> term mulop factor .)
+    MAYOR           reduce using rule 84 (term -> term mulop factor .)
+    MAYORIGUAL      reduce using rule 84 (term -> term mulop factor .)
+    IGUALNOT        reduce using rule 84 (term -> term mulop factor .)
+    SUM             reduce using rule 84 (term -> term mulop factor .)
+    RES             reduce using rule 84 (term -> term mulop factor .)
+    SEMICOLON       reduce using rule 84 (term -> term mulop factor .)
+    THEN            reduce using rule 84 (term -> term mulop factor .)
+    OF              reduce using rule 84 (term -> term mulop factor .)
+    DO              reduce using rule 84 (term -> term mulop factor .)
+    TO              reduce using rule 84 (term -> term mulop factor .)
+    CPAREN          reduce using rule 84 (term -> term mulop factor .)
+    COMMA           reduce using rule 84 (term -> term mulop factor .)
+
+
+state 166
+
+    (88) factor -> APAREN expression CPAREN .
+
+    MUL             reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    DIVI            reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    MENOR           reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    MENORIGUAL      reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    MAYOR           reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    MAYORIGUAL      reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    IGUALNOT        reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    SUM             reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    RES             reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    SEMICOLON       reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    THEN            reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    OF              reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    DO              reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    TO              reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    CPAREN          reduce using rule 88 (factor -> APAREN expression CPAREN .)
+    COMMA           reduce using rule 88 (factor -> APAREN expression CPAREN .)
+
+
+state 167
+
+    (50) local_declaration -> ID NUMBER COLON EQUAL ID .
+
+    END             reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    SEMICOLON       reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    BEGIN           reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    IF              reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    CASE            reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    WHILE           reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    FOR             reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    RETURN          reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    VAR             reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    ID              reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    APAREN          reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+    NUMBER          reduce using rule 50 (local_declaration -> ID NUMBER COLON EQUAL ID .)
+
+
+state 168
+
+    (61) selection_stmt -> IF expression THEN statement . SEMICOLON
+
+    SEMICOLON       shift and go to state 177
+
+
+state 169
+
+    (62) selection_stmt -> IF expression THEN BEGIN . proce_declaration SEMICOLON
+    (63) selection_stmt -> IF expression THEN BEGIN . proce_declaration SEMICOLON END ELSE BEGIN
+    (45) compount_stmt -> BEGIN . local_declaration statement_list END
+    (36) proce_declaration -> . PROCEDURE ID APAREN params CPAREN SEMICOLON compount_stmt
+    (37) proce_declaration -> . PROCEDURE ID SEMICOLON compount_stmt
+    (46) local_declaration -> . empty
+    (47) local_declaration -> . ID COLON EQUAL ID
+    (48) local_declaration -> . ID COLON EQUAL NUMBER
+    (49) local_declaration -> . NUMBER COLON EQUAL NUMBER
+    (50) local_declaration -> . ID NUMBER COLON EQUAL ID
+    (51) local_declaration -> . NUMBER COLON EQUAL ID
+    (98) empty -> .
+
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+    PROCEDURE       shift and go to state 11
+    ID              shift and go to state 76
+    NUMBER          shift and go to state 77
+    END             reduce using rule 98 (empty -> .)
+    SEMICOLON       reduce using rule 98 (empty -> .)
+    BEGIN           reduce using rule 98 (empty -> .)
+    IF              reduce using rule 98 (empty -> .)
+    CASE            reduce using rule 98 (empty -> .)
+    WHILE           reduce using rule 98 (empty -> .)
+    FOR             reduce using rule 98 (empty -> .)
+    RETURN          reduce using rule 98 (empty -> .)
+    VAR             reduce using rule 98 (empty -> .)
+    APAREN          reduce using rule 98 (empty -> .)
+
+  ! ID              [ reduce using rule 98 (empty -> .) ]
+  ! NUMBER          [ reduce using rule 98 (empty -> .) ]
+
+    proce_declaration              shift and go to state 178
+    local_declaration              shift and go to state 74
+    empty                          shift and go to state 75
+
+state 170
+
+    (64) selection_stmt -> CASE expression OF statement . END SEMICOLON
+
+    END             shift and go to state 179
+
+
+state 171
+
+    (65) iteration_stmt -> WHILE expression DO BEGIN . statement END SEMICOLON
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    SEMICOLON       shift and go to state 102
+    BEGIN           shift and go to state 60
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 101
+    statement                      shift and go to state 180
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    var_declaration                shift and go to state 59
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 172
+
+    (66) iteration_stmt -> FOR expression TO expression . DO BEGIN statement END SEMICOLON
+
+    DO              shift and go to state 181
+
+
+state 173
+
+    (69) expression -> var COLON EQUAL expression .
+
+    SEMICOLON       reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    THEN            reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    OF              reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    DO              reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    TO              reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    CPAREN          reduce using rule 69 (expression -> var COLON EQUAL expression .)
+    COMMA           reduce using rule 69 (expression -> var COLON EQUAL expression .)
+
+
+state 174
+
+    (71) expression -> var EQUAL AMPERSANT ID .
+
+    SEMICOLON       reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    THEN            reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    OF              reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    DO              reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    TO              reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    CPAREN          reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+    COMMA           reduce using rule 71 (expression -> var EQUAL AMPERSANT ID .)
+
+
+state 175
+
+    (93) call -> ID APAREN args CPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 182
+
+
+state 176
+
+    (96) args_list -> args_list COMMA . expression
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 183
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 177
+
+    (61) selection_stmt -> IF expression THEN statement SEMICOLON .
+
+    END             reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    SEMICOLON       reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    BEGIN           reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    IF              reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    CASE            reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    WHILE           reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    FOR             reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    RETURN          reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    VAR             reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    ID              reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    APAREN          reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+    NUMBER          reduce using rule 61 (selection_stmt -> IF expression THEN statement SEMICOLON .)
+
+
+state 178
+
+    (62) selection_stmt -> IF expression THEN BEGIN proce_declaration . SEMICOLON
+    (63) selection_stmt -> IF expression THEN BEGIN proce_declaration . SEMICOLON END ELSE BEGIN
+
+    SEMICOLON       shift and go to state 184
+
+
+state 179
+
+    (64) selection_stmt -> CASE expression OF statement END . SEMICOLON
+
+    SEMICOLON       shift and go to state 185
+
+
+state 180
+
+    (65) iteration_stmt -> WHILE expression DO BEGIN statement . END SEMICOLON
+
+    END             shift and go to state 186
+
+
+state 181
+
+    (66) iteration_stmt -> FOR expression TO expression DO . BEGIN statement END SEMICOLON
+
+    BEGIN           shift and go to state 187
+
+
+state 182
+
+    (93) call -> ID APAREN args CPAREN SEMICOLON .
+
+    MUL             reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    DIVI            reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    MENOR           reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    MENORIGUAL      reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    MAYOR           reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    MAYORIGUAL      reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    IGUALNOT        reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    SUM             reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    RES             reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    SEMICOLON       reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    THEN            reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    OF              reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    DO              reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    TO              reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    CPAREN          reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+    COMMA           reduce using rule 93 (call -> ID APAREN args CPAREN SEMICOLON .)
+
+
+state 183
+
+    (96) args_list -> args_list COMMA expression .
+
+    COMMA           reduce using rule 96 (args_list -> args_list COMMA expression .)
+    CPAREN          reduce using rule 96 (args_list -> args_list COMMA expression .)
+
+
+state 184
+
+    (62) selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .
+    (63) selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON . END ELSE BEGIN
+
+  ! shift/reduce conflict for END resolved as shift
+    SEMICOLON       reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    BEGIN           reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    IF              reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    CASE            reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    WHILE           reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    FOR             reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    RETURN          reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    VAR             reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    ID              reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    APAREN          reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    NUMBER          reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .)
+    END             shift and go to state 188
+
+  ! END             [ reduce using rule 62 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON .) ]
+
+
+state 185
+
+    (64) selection_stmt -> CASE expression OF statement END SEMICOLON .
+
+    END             reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    SEMICOLON       reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    BEGIN           reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    IF              reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    CASE            reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    WHILE           reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    FOR             reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    RETURN          reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    VAR             reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    ID              reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    APAREN          reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+    NUMBER          reduce using rule 64 (selection_stmt -> CASE expression OF statement END SEMICOLON .)
+
+
+state 186
+
+    (65) iteration_stmt -> WHILE expression DO BEGIN statement END . SEMICOLON
+
+    SEMICOLON       shift and go to state 189
+
+
+state 187
+
+    (66) iteration_stmt -> FOR expression TO expression DO BEGIN . statement END SEMICOLON
+    (54) statement -> . expression_stmt
+    (55) statement -> . compount_stmt
+    (56) statement -> . selection_stmt
+    (57) statement -> . iteration_stmt
+    (58) statement -> . return_stmt
+    (59) expression_stmt -> . expression SEMICOLON
+    (60) expression_stmt -> . SEMICOLON
+    (44) compount_stmt -> . var_declaration BEGIN local_declaration statement_list END
+    (45) compount_stmt -> . BEGIN local_declaration statement_list END
+    (61) selection_stmt -> . IF expression THEN statement SEMICOLON
+    (62) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON
+    (63) selection_stmt -> . IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN
+    (64) selection_stmt -> . CASE expression OF statement END SEMICOLON
+    (65) iteration_stmt -> . WHILE expression DO BEGIN statement END SEMICOLON
+    (66) iteration_stmt -> . FOR expression TO expression DO BEGIN statement END SEMICOLON
+    (67) return_stmt -> . RETURN SEMICOLON
+    (68) return_stmt -> . RETURN expression SEMICOLON
+    (69) expression -> . var COLON EQUAL expression
+    (70) expression -> . simple_expression
+    (71) expression -> . var EQUAL AMPERSANT ID
+    (15) var_declaration -> . VAR var_declaration2 COLON type_specifier SEMICOLON
+    (72) var -> . ID
+    (73) simple_expression -> . additive_expression relop additive_expression
+    (74) simple_expression -> . additive_expression
+    (80) additive_expression -> . additive_expression addop term
+    (81) additive_expression -> . term
+    (84) term -> . term mulop factor
+    (85) term -> . factor
+    (88) factor -> . APAREN expression CPAREN
+    (89) factor -> . var
+    (90) factor -> . call
+    (91) factor -> . NUMBER
+    (92) call -> . ID SEMICOLON
+    (93) call -> . ID APAREN args CPAREN SEMICOLON
+
+    SEMICOLON       shift and go to state 102
+    BEGIN           shift and go to state 60
+    IF              shift and go to state 103
+    CASE            shift and go to state 104
+    WHILE           shift and go to state 105
+    FOR             shift and go to state 106
+    RETURN          shift and go to state 107
+    VAR             shift and go to state 10
+    ID              shift and go to state 110
+    APAREN          shift and go to state 114
+    NUMBER          shift and go to state 116
+
+    expression                     shift and go to state 101
+    statement                      shift and go to state 190
+    expression_stmt                shift and go to state 96
+    compount_stmt                  shift and go to state 97
+    selection_stmt                 shift and go to state 98
+    iteration_stmt                 shift and go to state 99
+    return_stmt                    shift and go to state 100
+    var_declaration                shift and go to state 59
+    var                            shift and go to state 108
+    simple_expression              shift and go to state 109
+    additive_expression            shift and go to state 111
+    term                           shift and go to state 112
+    factor                         shift and go to state 113
+    call                           shift and go to state 115
+
+state 188
+
+    (63) selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END . ELSE BEGIN
+
+    ELSE            shift and go to state 191
+
+
+state 189
+
+    (65) iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .
+
+    END             reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    SEMICOLON       reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    BEGIN           reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    IF              reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    CASE            reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    WHILE           reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    FOR             reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    RETURN          reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    VAR             reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    ID              reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    APAREN          reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+    NUMBER          reduce using rule 65 (iteration_stmt -> WHILE expression DO BEGIN statement END SEMICOLON .)
+
+
+state 190
+
+    (66) iteration_stmt -> FOR expression TO expression DO BEGIN statement . END SEMICOLON
+
+    END             shift and go to state 192
+
+
+state 191
+
+    (63) selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE . BEGIN
+
+    BEGIN           shift and go to state 193
+
+
+state 192
+
+    (66) iteration_stmt -> FOR expression TO expression DO BEGIN statement END . SEMICOLON
+
+    SEMICOLON       shift and go to state 194
+
+
+state 193
+
+    (63) selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .
+
+    END             reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    SEMICOLON       reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    BEGIN           reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    IF              reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    CASE            reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    WHILE           reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    FOR             reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    RETURN          reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    VAR             reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    ID              reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    APAREN          reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+    NUMBER          reduce using rule 63 (selection_stmt -> IF expression THEN BEGIN proce_declaration SEMICOLON END ELSE BEGIN .)
+
+
+state 194
+
+    (66) iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .
+
+    END             reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    SEMICOLON       reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    BEGIN           reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    IF              reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    CASE            reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    WHILE           reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    FOR             reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    RETURN          reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    VAR             reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    ID              reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    APAREN          reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+    NUMBER          reduce using rule 66 (iteration_stmt -> FOR expression TO expression DO BEGIN statement END SEMICOLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for ID in state 60 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 60 resolved as shift
+WARNING: shift/reduce conflict for ID in state 73 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 73 resolved as shift
+WARNING: shift/reduce conflict for SEMICOLON in state 110 resolved as shift
+WARNING: shift/reduce conflict for ID in state 169 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 169 resolved as shift
+WARNING: shift/reduce conflict for END in state 184 resolved as shift
